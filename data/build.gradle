@@ -9,8 +9,6 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
 
-
-
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
@@ -37,8 +35,20 @@ android {
 dependencies {
     implementation project(":domain")
 
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "androidx.core:core-ktx:$ktx_version"
+
+    // coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    // room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version" // use kapt for Kotlin
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
