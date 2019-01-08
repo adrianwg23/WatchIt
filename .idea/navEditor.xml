@@ -8,7 +8,7 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="favouritesFragment">
+                  <entry key="navigation_favourites">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -20,7 +20,7 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="movieListFragment">
+                  <entry key="navigation_movies">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -32,7 +32,7 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="tvShowListFragment">
+                  <entry key="navigation_tv_shows">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
