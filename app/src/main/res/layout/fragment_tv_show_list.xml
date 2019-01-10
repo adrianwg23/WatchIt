@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".contentlist.TvShowListFragment">
+    tools:context=".contentlist.tvshowlist.TvShowListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/contentRecyclerView"
+        android:id="@+id/tvShowRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

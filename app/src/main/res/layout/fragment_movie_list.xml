@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".contentlist.MovieListFragment">
+    tools:context=".contentlist.movielist.MovieListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/contentRecyclerView"
+        android:id="@+id/movieRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
