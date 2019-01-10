@@ -25,7 +25,7 @@ abstract class ContentListLogic(dispatcher: DispatcherProvider,
 
     override fun event(event: ContentListEvent) {
         when(event) {
-            is ContentListEvent.OnListItemClick -> onListItemClick()
+            is ContentListEvent.OnListItemClick<*> -> onListItemClick()
             is ContentListEvent.OnListRefresh -> onListRefresh()
             is ContentListEvent.OnStart -> onStart()
             is ContentListEvent.OnBind -> onBind()
