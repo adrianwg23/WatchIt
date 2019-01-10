@@ -1,7 +1,5 @@
 package com.example.adrianwong.watchit.contentlist
 
-import com.example.adrianwong.domain.domainmodel.Movie
-
 interface IContentListContract {
 
     interface View {
