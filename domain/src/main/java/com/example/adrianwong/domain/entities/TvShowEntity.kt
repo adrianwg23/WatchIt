@@ -1,5 +1,5 @@
-package com.example.adrianwong.domain.domainmodel
+package com.example.adrianwong.domain.entities
 
-class TvShow() {
+class TvShowEntity() {
     // TODO make this a data class later
 }

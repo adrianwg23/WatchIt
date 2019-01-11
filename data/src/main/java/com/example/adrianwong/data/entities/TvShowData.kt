@@ -1,2 +1,2 @@
-package com.example.adrianwong.data.datamodel
+package com.example.adrianwong.data.entities
 

@@ -1,6 +1,6 @@
-package com.example.adrianwong.domain.domainmodel
+package com.example.adrianwong.domain.entities
 
 
-class Movie() {
+class MovieEntity() {
     // TODO make this a data class later
 }
