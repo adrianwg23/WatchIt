@@ -1,5 +1,7 @@
 package com.example.adrianwong.domain.usecases
 
-class GetMovieDetails() {
+import com.example.adrianwong.domain.repository.IMovieRepository
+
+class GetMovieDetails(movieRepository: IMovieRepository) {
 
 }

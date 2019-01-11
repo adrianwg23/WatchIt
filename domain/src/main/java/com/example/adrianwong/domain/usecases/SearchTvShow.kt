@@ -1,5 +1,7 @@
 package com.example.adrianwong.domain.usecases
 
-class SearchTvShow() {
+import com.example.adrianwong.domain.repository.ITvShowRepository
+
+class SearchTvShow(tvShowRepository: ITvShowRepository) {
 
 }

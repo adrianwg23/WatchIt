@@ -8,9 +8,9 @@ import com.example.adrianwong.watchit.contentlist.IContentListContract
 
 class TvShowListLogic(dispatcher: DispatcherProvider,
                       view: IContentListContract.View,
-                      viewModel: IContentListContract.ViewModel,
+                      viewModel: IContentListContract.TvShowListViewModel,
                       private val getPopularTvShows: GetPopularTvShows,
-                      private val searchTvShow: SearchTvShow) : ContentListLogic(dispatcher, view, viewModel) {
+                      private val searchTvShow: SearchTvShow) : ContentListLogic(dispatcher, view) {
 
 
     override fun onListItemClick() {

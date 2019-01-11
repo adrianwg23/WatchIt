@@ -11,8 +11,7 @@ import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
 abstract class ContentListLogic(dispatcher: DispatcherProvider,
-                       private var view: IContentListContract.View,
-                       private var viewModel: IContentListContract.ViewModel) : BaseLogic(dispatcher), IContentListContract.Logic, CoroutineScope {
+                       private var view: IContentListContract.View) : BaseLogic(dispatcher), IContentListContract.Logic, CoroutineScope {
 
     init {
         jobTracker = Job()

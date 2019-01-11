@@ -10,9 +10,12 @@ interface IContentListContract {
         fun startContentDetailsActivity()
     }
 
-    interface ViewModel {
+    interface MovieListViewModel {
         fun setMovieList()
         fun getMovieList()
+    }
+
+    interface TvShowListViewModel {
         fun setTvShowList()
         fun getTvShowList()
     }

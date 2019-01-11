@@ -8,9 +8,9 @@ import com.example.adrianwong.watchit.contentlist.IContentListContract
 
 class MovieListLogic(dispatcher: DispatcherProvider,
                      view: IContentListContract.View,
-                     viewModel: IContentListContract.ViewModel,
+                     viewModel: IContentListContract.MovieListViewModel,
                      private val getPopularMovies: GetPopularMovies,
-                     private val searchMovie: SearchMovie) : ContentListLogic(dispatcher, view, viewModel) {
+                     private val searchMovie: SearchMovie) : ContentListLogic(dispatcher, view) {
 
 
     override fun onListItemClick() {

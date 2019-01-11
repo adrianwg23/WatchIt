@@ -1,5 +1,7 @@
 package com.example.adrianwong.domain.usecases
 
-class GetPopularTvShows() {
+import com.example.adrianwong.domain.repository.ITvShowRepository
+
+class GetPopularTvShows(tvShowRepository: ITvShowRepository) {
 
 }

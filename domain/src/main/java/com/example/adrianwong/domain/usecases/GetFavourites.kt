@@ -1,5 +1,7 @@
 package com.example.adrianwong.domain.usecases
 
-class GetFavourites() {
+import com.example.adrianwong.domain.repository.IFavouritesRepository
+
+class GetFavourites(favouritesRepository: IFavouritesRepository) {
 
 }
