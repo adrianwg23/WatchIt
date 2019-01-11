@@ -1,7 +1,7 @@
 package com.example.adrianwong.watchit.contentlist.movielist
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.adrianwong.domain.domainmodel.Movie
+import com.example.adrianwong.watchit.entities.Movie
 
 class MovieListDiffUtilCallback : DiffUtil.ItemCallback<Movie>() {
 

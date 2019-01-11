@@ -1,7 +1,7 @@
 package com.example.adrianwong.watchit.contentlist.tvshowlist
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.adrianwong.domain.domainmodel.TvShow
+import com.example.adrianwong.watchit.entities.TvShow
 
 class TvShowListDiffUtilCallback : DiffUtil.ItemCallback<TvShow>() {
 
