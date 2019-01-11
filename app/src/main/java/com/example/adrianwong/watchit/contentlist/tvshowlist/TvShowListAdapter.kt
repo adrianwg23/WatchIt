@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.adrianwong.domain.domainmodel.TvShow
 import com.example.adrianwong.watchit.R
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.entities.TvShow
 
 
 class TvShowListAdapter(private var logic: IContentListContract.Logic) :
@@ -29,7 +29,7 @@ class TvShowListAdapter(private var logic: IContentListContract.Logic) :
     class TvShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(tvShow: TvShow, clickListener: (TvShow) -> Unit) {
-            //itemView.content_title.text = tvShow.title
+            //itemView.content_title.text = tvShowEntity.title
             itemView.setOnClickListener { clickListener(tvShow) }
         }
     }

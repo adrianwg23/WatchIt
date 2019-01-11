@@ -5,11 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.adrianwong.domain.domainmodel.Movie
 import com.example.adrianwong.watchit.R
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.IContentListContract
-import kotlinx.android.synthetic.main.content_list_item.view.*
+import com.example.adrianwong.watchit.entities.Movie
 
 class MovieListAdapter(private var logic: IContentListContract.Logic) :
     ListAdapter<Movie, MovieListAdapter.MovieViewHolder>(MovieListDiffUtilCallback()) {
@@ -29,7 +28,7 @@ class MovieListAdapter(private var logic: IContentListContract.Logic) :
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(movie: Movie, clickListener: (Movie) -> Unit) {
-            //itemView.content_title.text = movie.title
+            //itemView.content_title.text = movieEntity.title
             itemView.setOnClickListener { clickListener(movie) }
         }
     }
