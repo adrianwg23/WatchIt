@@ -31,8 +31,4 @@ class TvShowsModule(private val view: IContentListContract.View,
     fun providesTvShowListLogic(getPopularTvShows: GetPopularTvShows, searchTvShow: SearchTvShow): TvShowListLogic {
         return TvShowListLogic(DispatcherProvider, view, viewModel, getPopularTvShows, searchTvShow)
     }
-
-    @Provides
-    @TvShowsScope
-    fun providesTvShowListVMFactory(): TvShowListVMFactory = TvShowListVMFactory()
 }

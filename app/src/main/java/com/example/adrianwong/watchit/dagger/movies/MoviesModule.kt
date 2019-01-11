@@ -6,7 +6,6 @@ import com.example.adrianwong.domain.usecases.GetPopularMovies
 import com.example.adrianwong.domain.usecases.SearchMovie
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.contentlist.movielist.MovieListLogic
-import com.example.adrianwong.watchit.contentlist.movielist.MovieListVMFactory
 import dagger.Module
 import dagger.Provides
 
@@ -31,8 +30,4 @@ class MoviesModule(private val view: IContentListContract.View,
     fun providesMovieListLogic(getPopularMovies: GetPopularMovies, searchMovie: SearchMovie): MovieListLogic {
         return MovieListLogic(DispatcherProvider, view, viewModel, getPopularMovies, searchMovie)
     }
-
-    @Provides
-    @MoviesScope
-    fun providesMovieListVMFactory(): MovieListVMFactory = MovieListVMFactory()
 }
