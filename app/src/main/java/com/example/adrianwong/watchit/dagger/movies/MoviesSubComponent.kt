@@ -1,12 +1,10 @@
 package com.example.adrianwong.watchit.dagger.movies
 
 import com.example.adrianwong.watchit.contentlist.movielist.MovieListFragment
-import com.example.adrianwong.watchit.dagger.MainComponent
-import dagger.Component
+import dagger.Subcomponent
 
 @MoviesScope
-@Component(modules = [MoviesModule::class], dependencies = [MainComponent::class])
-interface MoviesComponent {
-
+@Subcomponent(modules = [MoviesModule::class])
+interface MoviesSubComponent {
     fun inject(movieListFragment: MovieListFragment)
 }

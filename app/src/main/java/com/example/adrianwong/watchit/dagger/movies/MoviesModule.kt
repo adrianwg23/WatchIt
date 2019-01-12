@@ -5,6 +5,7 @@ import com.example.adrianwong.domain.repository.IMovieRepository
 import com.example.adrianwong.domain.usecases.GetPopularMovies
 import com.example.adrianwong.domain.usecases.SearchMovie
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.contentlist.movielist.MovieListAdapter
 import com.example.adrianwong.watchit.contentlist.movielist.MovieListLogic
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,12 @@ class MoviesModule(private val view: IContentListContract.View,
     @MoviesScope
     fun providesSearchMovie(movieRepository: IMovieRepository): SearchMovie {
         return SearchMovie(movieRepository)
+    }
+
+    @Provides
+    @MoviesScope
+    fun providesMovieListAdapter(movieListLogic: MovieListLogic): MovieListAdapter {
+        return MovieListAdapter(movieListLogic)
     }
 
     @Provides

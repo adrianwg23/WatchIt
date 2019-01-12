@@ -5,6 +5,7 @@ import com.example.adrianwong.domain.repository.ITvShowRepository
 import com.example.adrianwong.domain.usecases.GetPopularTvShows
 import com.example.adrianwong.domain.usecases.SearchTvShow
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListAdapter
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListLogic
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,12 @@ class TvShowsModule(private val view: IContentListContract.View,
     @TvShowsScope
     fun providesSearchTvShow(tvShowRepository: ITvShowRepository): SearchTvShow {
         return SearchTvShow(tvShowRepository)
+    }
+
+    @Provides
+    @TvShowsScope
+    fun providesTvShowListAdapter(tvShowListLogic: TvShowListLogic): TvShowListAdapter {
+        return TvShowListAdapter(tvShowListLogic)
     }
 
     @Provides
