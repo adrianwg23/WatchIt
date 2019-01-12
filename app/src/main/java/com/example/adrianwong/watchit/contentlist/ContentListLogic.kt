@@ -11,7 +11,9 @@ import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
 abstract class ContentListLogic(dispatcher: DispatcherProvider,
-                       private var view: IContentListContract.View) : BaseLogic(dispatcher), IContentListContract.Logic, CoroutineScope {
+                                var view: IContentListContract.View? = null,
+                                var viewModel: IContentListContract.ViewModel? = null) :
+    BaseLogic(dispatcher), IContentListContract.Logic, CoroutineScope {
 
     init {
         jobTracker = Job()
@@ -27,20 +29,18 @@ abstract class ContentListLogic(dispatcher: DispatcherProvider,
             is ContentListEvent.OnListItemClick<*> -> onListItemClick()
             is ContentListEvent.OnListRefresh -> onListRefresh()
             is ContentListEvent.OnStart -> onStart()
-            is ContentListEvent.OnBind -> onBind()
+            is ContentListEvent.OnBind -> onBind(event.view, event.viewModel)
             is ContentListEvent.OnDestroy -> onDestroy()
         }
     }
 
-    abstract fun onListItemClick()
+    protected abstract fun onListItemClick()
 
-    abstract fun onListRefresh()
+    protected abstract fun onListRefresh()
 
-    abstract fun onStart()
+    protected abstract fun onStart()
 
-    private fun onBind() {
-
-    }
+    protected abstract fun onBind(view: IContentListContract.View, viewModel: IContentListContract.ViewModel)
 
     private fun onDestroy() {
         jobTracker.cancel()

@@ -16,9 +16,9 @@ import com.example.adrianwong.watchit.dagger.tvshows.TvShowsSubComponent
 
 class MovieApplication : Application() {
 
-    lateinit var mainComponent: MainComponent
+    private lateinit var mainComponent: MainComponent
     private var favouritesSubComponent: FavouritesSubComponent? = null
-    private var moviesSubcomponent: MoviesSubComponent? = null
+    private var moviesSubComponent: MoviesSubComponent? = null
     private var tvShowsSubComponent: TvShowsSubComponent? = null
 
     override fun onCreate() {
@@ -26,7 +26,7 @@ class MovieApplication : Application() {
 
         mainComponent = DaggerMainComponent.builder()
             .appModule(AppModule(applicationContext))
-            .networkModule(NetworkModule("test"))
+            .networkModule(NetworkModule("http://google.com/"))
             .dataModule(DataModule())
             .build()
     }
@@ -40,17 +40,17 @@ class MovieApplication : Application() {
         favouritesSubComponent = null
     }
 
-    fun createMoviesComponent(view: IContentListContract.View, viewModel: IContentListContract.MovieListViewModel): MoviesSubComponent {
-        moviesSubcomponent = mainComponent.plus(MoviesModule(view, viewModel))
-        return moviesSubcomponent!!
+    fun createMoviesComponent(): MoviesSubComponent {
+        moviesSubComponent = mainComponent.plus(MoviesModule())
+        return moviesSubComponent!!
     }
 
     fun releaseMoviesComponent() {
-        moviesSubcomponent = null
+        moviesSubComponent = null
     }
 
-    fun createTvShowsComponent(view: IContentListContract.View, viewModel: IContentListContract.TvShowListViewModel): TvShowsSubComponent {
-        tvShowsSubComponent = mainComponent.plus(TvShowsModule(view, viewModel))
+    fun createTvShowsComponent(): TvShowsSubComponent {
+        tvShowsSubComponent = mainComponent.plus(TvShowsModule())
         return tvShowsSubComponent!!
     }
 

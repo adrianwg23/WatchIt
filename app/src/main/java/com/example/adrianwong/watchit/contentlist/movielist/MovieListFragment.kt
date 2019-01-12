@@ -12,10 +12,7 @@ import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.IContentListContract
-import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListAdapter
-import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListLogic
 import kotlinx.android.synthetic.main.fragment_movie_list.*
-import java.security.acl.Owner
 import javax.inject.Inject
 
 
@@ -25,12 +22,12 @@ import javax.inject.Inject
  */
 class MovieListFragment : Fragment(), IContentListContract.View {
 
+    @Inject lateinit var movieListLogic: IContentListContract.Logic
     @Inject lateinit var movieListAdapter: MovieListAdapter
-    @Inject lateinit var movieListLogic: MovieListLogic
     private lateinit var movieListViewModel: MovieListViewModel
 
     override fun onAttach(context: Context) {
-        (activity?.application as MovieApplication).createMoviesComponent(this, movieListViewModel).inject(this)
+        (activity?.application as MovieApplication).createMoviesComponent().inject(this)
         super.onAttach(context)
     }
 
@@ -42,6 +39,7 @@ class MovieListFragment : Fragment(), IContentListContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         movieListViewModel = ViewModelProviders.of(this).get(MovieListViewModel::class.java)
+        movieListLogic.event(ContentListEvent.OnBind(this, movieListViewModel))
         movieListViewModel.movies.observe(this, Observer { movies ->
             movies?.let {
                 movieListAdapter.submitList(it)
@@ -60,7 +58,7 @@ class MovieListFragment : Fragment(), IContentListContract.View {
         super.onDestroy()
     }
 
-    override fun setAdapater() {
+    override fun setAdapter() {
         movieRecyclerView.adapter = movieListAdapter
     }
 

@@ -23,18 +23,19 @@ import javax.inject.Inject
  */
 class TvShowListFragment : Fragment(), IContentListContract.View {
 
-    @Inject lateinit var tvShowListLogic: TvShowListLogic
+    @Inject lateinit var tvShowListLogic: IContentListContract.Logic
     @Inject lateinit var tvShowListAdapter: TvShowListAdapter
     private lateinit var tvShowsListViewModel: TvShowListViewModel
 
     override fun onAttach(context: Context) {
-        (activity?.application as MovieApplication).createTvShowsComponent(this, tvShowsListViewModel).inject(this)
+        (activity?.application as MovieApplication).createTvShowsComponent().inject(this)
         super.onAttach(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tvShowsListViewModel = ViewModelProviders.of(this).get(TvShowListViewModel::class.java)
+        tvShowListLogic.event(ContentListEvent.OnBind(this, tvShowsListViewModel))
         tvShowsListViewModel.tvShows.observe(this, Observer { tvShows ->
             tvShows?.let {
                 tvShowListAdapter.submitList(it)
@@ -58,7 +59,7 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
         super.onDestroy()
     }
 
-    override fun setAdapater() {
+    override fun setAdapter() {
         tvShowRecyclerView.adapter = tvShowListAdapter
     }
 

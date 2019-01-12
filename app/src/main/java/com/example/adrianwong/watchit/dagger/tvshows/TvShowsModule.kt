@@ -9,10 +9,10 @@ import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListAdapter
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListLogic
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 
 @Module
-class TvShowsModule(private val view: IContentListContract.View,
-                    private val viewModel: IContentListContract.TvShowListViewModel) {
+class TvShowsModule {
 
     @Provides
     @TvShowsScope
@@ -28,13 +28,13 @@ class TvShowsModule(private val view: IContentListContract.View,
 
     @Provides
     @TvShowsScope
-    fun providesTvShowListAdapter(tvShowListLogic: TvShowListLogic): TvShowListAdapter {
+    fun providesTvShowListAdapter(tvShowListLogic: IContentListContract.Logic): TvShowListAdapter {
         return TvShowListAdapter(tvShowListLogic)
     }
 
     @Provides
     @TvShowsScope
-    fun providesTvShowListLogic(getPopularTvShows: GetPopularTvShows, searchTvShow: SearchTvShow): TvShowListLogic {
-        return TvShowListLogic(DispatcherProvider, view, viewModel, getPopularTvShows, searchTvShow)
+    fun providesTvShowListLogic(getPopularTvShows: GetPopularTvShows, searchTvShow: SearchTvShow): IContentListContract.Logic {
+        return TvShowListLogic(DispatcherProvider, getPopularTvShows, searchTvShow)
     }
 }

@@ -7,23 +7,21 @@ import com.example.adrianwong.watchit.contentlist.ContentListLogic
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 
 class TvShowListLogic(dispatcher: DispatcherProvider,
-                      view: IContentListContract.View,
-                      viewModel: IContentListContract.TvShowListViewModel,
                       private val getPopularTvShows: GetPopularTvShows,
-                      private val searchTvShow: SearchTvShow) : ContentListLogic(dispatcher, view) {
-
+                      private val searchTvShow: SearchTvShow) : ContentListLogic(dispatcher) {
 
     override fun onListItemClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onListRefresh() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onStart() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun onBind(view: IContentListContract.View, viewModel: IContentListContract.ViewModel) {
+        this.view = view
+        this.viewModel = viewModel
+    }
 
 }
