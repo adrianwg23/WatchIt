@@ -1,5 +1,8 @@
 package com.example.adrianwong.watchit.contentlist
 
+import com.example.adrianwong.watchit.entities.Movie
+import com.example.adrianwong.watchit.entities.TvShow
+
 interface IContentListContract {
 
     interface View {
@@ -11,13 +14,13 @@ interface IContentListContract {
     }
 
     interface MovieListViewModel {
-        fun setMovieList()
-        fun getMovieList()
+        fun setMovieList(newMovieList: List<Movie>)
+        fun getMovieList(): List<Movie>?
     }
 
     interface TvShowListViewModel {
-        fun setTvShowList()
-        fun getTvShowList()
+        fun setTvShowList(newTvShowList: List<TvShow>)
+        fun getTvShowList(): List<TvShow>?
     }
 
     interface Logic {
