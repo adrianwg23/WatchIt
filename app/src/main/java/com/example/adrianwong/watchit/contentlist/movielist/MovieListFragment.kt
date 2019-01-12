@@ -20,8 +20,8 @@ import javax.inject.Inject
  */
 class MovieListFragment : Fragment(), IContentListContract.View {
 
-    @Inject lateinit var tvShowListAdapter: TvShowListAdapter
-    @Inject lateinit var tvShowListLogic: TvShowListLogic
+    @Inject lateinit var movieListAdapter: MovieListAdapter
+    @Inject lateinit var movieListLogic: MovieListLogic
     @Inject lateinit var factory: MovieListVMFactory
     private lateinit var movieListViewModel: MovieListViewModel
 
