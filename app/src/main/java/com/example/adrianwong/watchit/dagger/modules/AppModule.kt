@@ -14,5 +14,4 @@ class AppModule(context: Context) {
     @MovieApplicationScope
     fun providesAppContext(): Context = appContext
 
-
 }

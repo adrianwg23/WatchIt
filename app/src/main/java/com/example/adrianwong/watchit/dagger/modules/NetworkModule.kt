@@ -23,28 +23,24 @@ class NetworkModule(private val baseUrl: String) {
     @Provides
     @MovieApplicationScope
     fun providesOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor) : OkHttpClient {
-        val client = OkHttpClient.Builder()
+        return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .build()
-
-        return client
     }
 
     @Provides
     @MovieApplicationScope
     fun providesRetrofit(okHttpClient: OkHttpClient) : Retrofit {
-        val retrofit = Retrofit.Builder()
+        return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(baseUrl)
             .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
-
-        return retrofit
     }
 
     @Provides
