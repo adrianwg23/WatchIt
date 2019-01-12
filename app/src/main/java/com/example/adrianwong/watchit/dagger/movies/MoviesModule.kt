@@ -1,7 +1,7 @@
 package com.example.adrianwong.watchit.dagger.movies
 
-import com.example.adrianwong.data.repository.MovieRepositoryImpl
 import com.example.adrianwong.domain.DispatcherProvider
+import com.example.adrianwong.domain.repository.IMovieRepository
 import com.example.adrianwong.domain.usecases.GetPopularMovies
 import com.example.adrianwong.domain.usecases.SearchMovie
 import com.example.adrianwong.watchit.contentlist.IContentListContract
@@ -15,14 +15,14 @@ class MoviesModule(private val view: IContentListContract.View,
 
     @Provides
     @MoviesScope
-    fun providesGetPopularMovies(movieRepositoryImpl: MovieRepositoryImpl): GetPopularMovies {
-        return GetPopularMovies(movieRepositoryImpl)
+    fun providesGetPopularMovies(movieRepository: IMovieRepository): GetPopularMovies {
+        return GetPopularMovies(movieRepository)
     }
 
     @Provides
     @MoviesScope
-    fun providesSearchMovie(movieRepositoryImpl: MovieRepositoryImpl): SearchMovie {
-        return SearchMovie(movieRepositoryImpl)
+    fun providesSearchMovie(movieRepository: IMovieRepository): SearchMovie {
+        return SearchMovie(movieRepository)
     }
 
     @Provides
