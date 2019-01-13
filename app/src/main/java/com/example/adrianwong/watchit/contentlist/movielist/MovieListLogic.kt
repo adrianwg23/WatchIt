@@ -8,8 +8,10 @@ import com.example.adrianwong.watchit.contentlist.IContentListContract
 import kotlinx.coroutines.Job
 
 class MovieListLogic<T>(dispatcher: DispatcherProvider,
-                     private val getPopularMovies: GetPopularMovies,
-                     private val searchMovie: SearchMovie) : ContentListLogic<T>(dispatcher) {
+                        view: IContentListContract.View,
+                        viewModel: IContentListContract.ViewModel<T>,
+                        private val getPopularMovies: GetPopularMovies,
+                        private val searchMovie: SearchMovie) : ContentListLogic<T>(dispatcher, view, viewModel) {
 
     override fun onListItemClick() {
     }
@@ -19,16 +21,13 @@ class MovieListLogic<T>(dispatcher: DispatcherProvider,
 
     override fun onStart() {
         jobTracker = Job()
-        if (mViewModel?.content?.value.isNullOrEmpty()) {
+        if (mViewModel.content.value.isNullOrEmpty()) {
             getPopularMovies.execute()
         }
     }
 
-    override fun onBind(view: IContentListContract.View, viewModel: IContentListContract.ViewModel<T>) {
-        mView = view
-        mViewModel = viewModel
-
-        mView?.run {
+    override fun onBind() {
+        mView.run {
             setToolBarTitle()
             setAdapter()
         }

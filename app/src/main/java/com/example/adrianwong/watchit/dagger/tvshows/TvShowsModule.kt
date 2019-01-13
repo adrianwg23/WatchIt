@@ -12,7 +12,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class TvShowsModule {
+class TvShowsModule(private val view: IContentListContract.View, private val viewModel: IContentListContract.ViewModel<TvShow>) {
 
     @Provides
     @TvShowsScope
@@ -35,6 +35,6 @@ class TvShowsModule {
     @Provides
     @TvShowsScope
     fun providesTvShowListLogic(getPopularTvShows: GetPopularTvShows, searchTvShow: SearchTvShow): IContentListContract.Logic {
-        return TvShowListLogic<TvShow>(DispatcherProvider, getPopularTvShows, searchTvShow)
+        return TvShowListLogic(DispatcherProvider, view, viewModel, getPopularTvShows, searchTvShow)
     }
 }

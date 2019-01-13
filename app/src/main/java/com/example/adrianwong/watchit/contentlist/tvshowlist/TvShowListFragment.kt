@@ -1,7 +1,6 @@
 package com.example.adrianwong.watchit.contentlist.tvshowlist
 
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +12,7 @@ import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.entities.TvShow
 import kotlinx.android.synthetic.main.fragment_tv_show_list.*
 import javax.inject.Inject
 
@@ -25,17 +25,13 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
 
     @Inject lateinit var tvShowListLogic: IContentListContract.Logic
     @Inject lateinit var tvShowListAdapter: TvShowListAdapter
-    private lateinit var tvShowsListViewModel: TvShowListViewModel
-
-    override fun onAttach(context: Context) {
-        (activity?.application as MovieApplication).createTvShowsComponent().inject(this)
-        super.onAttach(context)
-    }
+    private lateinit var tvShowsListViewModel: IContentListContract.ViewModel<TvShow>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         tvShowsListViewModel = ViewModelProviders.of(this).get(TvShowListViewModel::class.java)
+        (activity?.application as MovieApplication).createTvShowsComponent(this, tvShowsListViewModel).inject(this)
+
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,7 +40,7 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        tvShowListLogic.event(ContentListEvent.OnBind(this, tvShowsListViewModel))
+        tvShowListLogic.event(ContentListEvent.OnBind)
         tvShowsListViewModel.content.observe(this, Observer { tvShows ->
             tvShows?.let {
                 tvShowListAdapter.submitList(it)

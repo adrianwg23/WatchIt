@@ -1,6 +1,5 @@
 package com.example.adrianwong.watchit.contentlist.movielist
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,7 @@ import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.entities.Movie
 import kotlinx.android.synthetic.main.fragment_movie_list.*
 import javax.inject.Inject
 
@@ -24,11 +24,13 @@ class MovieListFragment : Fragment(), IContentListContract.View {
 
     @Inject lateinit var movieListLogic: IContentListContract.Logic
     @Inject lateinit var movieListAdapter: MovieListAdapter
-    private lateinit var movieListViewModel: MovieListViewModel
+    private lateinit var movieListViewModel: IContentListContract.ViewModel<Movie>
 
-    override fun onAttach(context: Context) {
-        (activity?.application as MovieApplication).createMoviesComponent().inject(this)
-        super.onAttach(context)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        movieListViewModel = ViewModelProviders.of(this).get(MovieListViewModel::class.java)
+        (activity?.application as MovieApplication).createMoviesComponent(this, movieListViewModel).inject(this)
+
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,14 +38,8 @@ class MovieListFragment : Fragment(), IContentListContract.View {
         return inflater.inflate(R.layout.fragment_movie_list, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        movieListViewModel = ViewModelProviders.of(this).get(MovieListViewModel::class.java)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        movieListLogic.event(ContentListEvent.OnBind(this, movieListViewModel))
+        movieListLogic.event(ContentListEvent.OnBind)
         movieListViewModel.content.observe(this, Observer { movies ->
             movies?.let {
                 movieListAdapter.submitList(it)

@@ -14,6 +14,7 @@ interface IContentListContract {
 
     interface ViewModel<T> {
         val content: MutableLiveData<List<T>>
+        val pageNumber: Int
     }
 
     interface Logic {
@@ -25,6 +26,6 @@ sealed class ContentListEvent {
     data class OnListItemClick<out T>(val content: T) : ContentListEvent()
     object OnListRefresh : ContentListEvent()
     object OnStart : ContentListEvent()
-    data class OnBind<T>(val view: IContentListContract.View, val viewModel: IContentListContract.ViewModel<T>) : ContentListEvent()
+    object OnBind : ContentListEvent()
     object OnDestroy : ContentListEvent()
 }

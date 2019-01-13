@@ -12,7 +12,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class MoviesModule {
+class MoviesModule(private val view: IContentListContract.View, private val viewModel: IContentListContract.ViewModel<Movie>) {
 
     @Provides
     @MoviesScope
@@ -35,6 +35,6 @@ class MoviesModule {
     @Provides
     @MoviesScope
     fun providesMovieListLogic(getPopularMovies: GetPopularMovies, searchMovie: SearchMovie): IContentListContract.Logic {
-        return MovieListLogic<Movie>(DispatcherProvider, getPopularMovies, searchMovie)
+        return MovieListLogic(DispatcherProvider, view, viewModel, getPopularMovies, searchMovie)
     }
 }

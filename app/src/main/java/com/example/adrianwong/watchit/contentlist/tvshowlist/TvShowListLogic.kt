@@ -9,8 +9,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class TvShowListLogic<T>(dispatcher: DispatcherProvider,
-                      private val getPopularTvShows: GetPopularTvShows,
-                      private val searchTvShow: SearchTvShow) : ContentListLogic<T>(dispatcher) {
+                         view: IContentListContract.View,
+                         viewModel: IContentListContract.ViewModel<T>,
+                         private val getPopularTvShows: GetPopularTvShows,
+                         private val searchTvShow: SearchTvShow) : ContentListLogic<T>(dispatcher, view, viewModel) {
 
     override fun onListItemClick() {
     }
@@ -20,16 +22,13 @@ class TvShowListLogic<T>(dispatcher: DispatcherProvider,
 
     override fun onStart() {
         jobTracker = Job()
-        if (mViewModel?.content?.value.isNullOrEmpty()) {
+        if (mViewModel.content.value.isNullOrEmpty()) {
             updateTvShowList()
         }
     }
 
-    override fun onBind(view: IContentListContract.View, viewModel: IContentListContract.ViewModel<T>) {
-        mView = view
-        mViewModel = viewModel
-
-        mView?.run {
+    override fun onBind() {
+        mView.run {
             setToolBarTitle()
             setAdapter()
         }

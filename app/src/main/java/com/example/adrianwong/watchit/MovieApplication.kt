@@ -13,6 +13,8 @@ import com.example.adrianwong.watchit.dagger.movies.MoviesModule
 import com.example.adrianwong.watchit.dagger.movies.MoviesSubComponent
 import com.example.adrianwong.watchit.dagger.tvshows.TvShowsModule
 import com.example.adrianwong.watchit.dagger.tvshows.TvShowsSubComponent
+import com.example.adrianwong.watchit.entities.Movie
+import com.example.adrianwong.watchit.entities.TvShow
 
 class MovieApplication : Application() {
 
@@ -40,8 +42,8 @@ class MovieApplication : Application() {
         favouritesSubComponent = null
     }
 
-    fun createMoviesComponent(): MoviesSubComponent {
-        moviesSubComponent = mainComponent.plus(MoviesModule())
+    fun createMoviesComponent(view: IContentListContract.View, viewModel: IContentListContract.ViewModel<Movie>): MoviesSubComponent {
+        moviesSubComponent = mainComponent.plus(MoviesModule(view, viewModel))
         return moviesSubComponent!!
     }
 
@@ -49,8 +51,8 @@ class MovieApplication : Application() {
         moviesSubComponent = null
     }
 
-    fun createTvShowsComponent(): TvShowsSubComponent {
-        tvShowsSubComponent = mainComponent.plus(TvShowsModule())
+    fun createTvShowsComponent(view: IContentListContract.View, viewModel: IContentListContract.ViewModel<TvShow>): TvShowsSubComponent {
+        tvShowsSubComponent = mainComponent.plus(TvShowsModule(view, viewModel))
         return tvShowsSubComponent!!
     }
 
