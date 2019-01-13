@@ -34,18 +34,24 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         tvShowsListViewModel = ViewModelProviders.of(this).get(TvShowListViewModel::class.java)
-        tvShowListLogic.event(ContentListEvent.OnBind(this, tvShowsListViewModel))
-        tvShowsListViewModel.tvShows.observe(this, Observer { tvShows ->
-            tvShows?.let {
-                tvShowListAdapter.submitList(it)
-            }
-        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tv_show_list, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        tvShowListLogic.event(ContentListEvent.OnBind(this, tvShowsListViewModel))
+        tvShowsListViewModel.content.observe(this, Observer { tvShows ->
+            tvShows?.let {
+                tvShowListAdapter.submitList(it)
+            }
+        })
+
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onStart() {

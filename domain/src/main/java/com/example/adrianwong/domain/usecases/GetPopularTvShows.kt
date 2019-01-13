@@ -4,4 +4,7 @@ import com.example.adrianwong.domain.repository.ITvShowRepository
 
 class GetPopularTvShows(tvShowRepository: ITvShowRepository) {
 
+    fun execute() {
+
+    }
 }

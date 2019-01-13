@@ -7,9 +7,9 @@ import com.example.adrianwong.domain.usecases.SearchTvShow
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListAdapter
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListLogic
+import com.example.adrianwong.watchit.entities.TvShow
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 
 @Module
 class TvShowsModule {
@@ -35,6 +35,6 @@ class TvShowsModule {
     @Provides
     @TvShowsScope
     fun providesTvShowListLogic(getPopularTvShows: GetPopularTvShows, searchTvShow: SearchTvShow): IContentListContract.Logic {
-        return TvShowListLogic(DispatcherProvider, getPopularTvShows, searchTvShow)
+        return TvShowListLogic<TvShow>(DispatcherProvider, getPopularTvShows, searchTvShow)
     }
 }

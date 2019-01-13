@@ -5,4 +5,5 @@ import androidx.lifecycle.ViewModel
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.entities.TvShow
 
-class TvShowListViewModel(val tvShows: MutableLiveData<List<TvShow>> = MutableLiveData()) : ViewModel(), IContentListContract.ViewModel
+class TvShowListViewModel(override val content: MutableLiveData<List<TvShow>> = MutableLiveData()) : ViewModel(),
+    IContentListContract.ViewModel<TvShow>

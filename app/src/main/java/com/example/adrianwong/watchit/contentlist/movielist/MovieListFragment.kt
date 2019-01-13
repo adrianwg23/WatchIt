@@ -38,13 +38,19 @@ class MovieListFragment : Fragment(), IContentListContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         movieListViewModel = ViewModelProviders.of(this).get(MovieListViewModel::class.java)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         movieListLogic.event(ContentListEvent.OnBind(this, movieListViewModel))
-        movieListViewModel.movies.observe(this, Observer { movies ->
+        movieListViewModel.content.observe(this, Observer { movies ->
             movies?.let {
                 movieListAdapter.submitList(it)
             }
         })
+
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onStart() {

@@ -7,6 +7,7 @@ import com.example.adrianwong.domain.usecases.SearchMovie
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.contentlist.movielist.MovieListAdapter
 import com.example.adrianwong.watchit.contentlist.movielist.MovieListLogic
+import com.example.adrianwong.watchit.entities.Movie
 import dagger.Module
 import dagger.Provides
 
@@ -34,6 +35,6 @@ class MoviesModule {
     @Provides
     @MoviesScope
     fun providesMovieListLogic(getPopularMovies: GetPopularMovies, searchMovie: SearchMovie): IContentListContract.Logic {
-        return MovieListLogic(DispatcherProvider, getPopularMovies, searchMovie)
+        return MovieListLogic<Movie>(DispatcherProvider, getPopularMovies, searchMovie)
     }
 }
