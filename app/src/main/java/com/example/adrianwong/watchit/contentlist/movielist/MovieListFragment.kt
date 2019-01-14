@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
@@ -27,6 +28,16 @@ class MovieListFragment : Fragment(), IContentListContract.View {
     @Inject lateinit var movieListAdapter: MovieListAdapter
     private lateinit var movieListViewModel: IContentListContract.ViewModel<Movie>
 
+    val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+
+            if (!movieRecyclerView.canScrollVertically(1)) {
+                movieListLogic.event(ContentListEvent.OnLoadMoreData)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         movieListViewModel = ViewModelProviders.of(activity!!).get(MovieListViewModel::class.java)
         (activity?.application as MovieApplication).createMoviesComponent(this, movieListViewModel).inject(this)
@@ -44,8 +55,12 @@ class MovieListFragment : Fragment(), IContentListContract.View {
         movieListViewModel.content.observe(this, Observer { movies ->
             movies?.let {
                 movieListAdapter.submitList(it)
+                movieListAdapter.notifyDataSetChanged()
+
             }
         })
+
+        movieRecyclerView.addOnScrollListener(scrollListener)
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -75,6 +90,4 @@ class MovieListFragment : Fragment(), IContentListContract.View {
 
     override fun startContentDetailsActivity() {
     }
-
-
 }

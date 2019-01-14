@@ -16,6 +16,9 @@ data class MovieData(
     @SerializedName("poster_path")
     var posterPath: String? = null,
 
+    @SerializedName("backdrop_path")
+    var backDropPath: String? = null,
+
     @SerializedName("overview")
     var overView: String? = null,
 

@@ -6,11 +6,11 @@ import com.example.adrianwong.watchit.entities.Movie
 class MovieListDiffUtilCallback : DiffUtil.ItemCallback<Movie>() {
 
     override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return oldItem.id == newItem.id
     }
 
 }

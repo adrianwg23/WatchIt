@@ -5,6 +5,7 @@ import com.example.adrianwong.domain.common.Mapper
 import com.example.adrianwong.domain.entities.MovieEntity
 import com.example.adrianwong.domain.usecases.GetPopularMovies
 import com.example.adrianwong.domain.usecases.SearchMovie
+import com.example.adrianwong.watchit.common.notifyObserver
 import com.example.adrianwong.watchit.contentlist.ContentListLogic
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.entities.Movie
@@ -24,9 +25,13 @@ class MovieListLogic(dispatcher: DispatcherProvider,
     override fun onListRefresh() {
     }
 
+    override fun onLoadMoreData() {
+        updateMovieList(mViewModel.pageNumber++)
+    }
+
     override fun onStart() {
         if (mViewModel.content.value.isNullOrEmpty()) {
-            updateMovieList(mViewModel.pageNumber)
+            updateMovieList(mViewModel.pageNumber++)
         }
     }
 
@@ -44,7 +49,11 @@ class MovieListLogic(dispatcher: DispatcherProvider,
             }
         }
 
-        mViewModel.content.value = movies
-        mViewModel.pageNumber++
+        mViewModel.content.value?.run {
+            addAll(movies)
+            mViewModel.content.notifyObserver()
+        } ?: run {
+            mViewModel.content.value = movies.toMutableList()
+        }
     }
 }

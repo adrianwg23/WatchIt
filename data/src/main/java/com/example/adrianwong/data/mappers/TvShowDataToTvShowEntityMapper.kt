@@ -12,6 +12,7 @@ object TvShowDataToTvShowEntityMapper : Mapper<TvShowData, TvShowEntity>() {
             name = from.name,
             voteAverage = from.voteAverage,
             posterPath = from.posterPath,
+            backDropPath = from.backDropPath,
             overView = from.overView,
             firstAirDate = from.firstAirDate
         )

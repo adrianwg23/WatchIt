@@ -56,10 +56,10 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
         super.onStart()
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         tvShowListLogic.event(ContentListEvent.OnDestroy)
         (activity?.application as MovieApplication).releaseTvShowsComponent()
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     override fun setAdapter() {

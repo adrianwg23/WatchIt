@@ -12,6 +12,7 @@ object MovieDataToMovieEntityMapper : Mapper<MovieData, MovieEntity>() {
             title = from.title,
             voteAverage = from.voteAverage,
             posterPath = from.posterPath,
+            backDropPath = from.backDropPath,
             overView = from.overView,
             releaseDate = from.releaseDate
         )

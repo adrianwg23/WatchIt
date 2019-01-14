@@ -1,11 +1,11 @@
 package com.example.adrianwong.watchit.contentlist.tvshowlist
 
-import android.util.Log
 import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.domain.common.Mapper
 import com.example.adrianwong.domain.entities.TvShowEntity
 import com.example.adrianwong.domain.usecases.GetPopularTvShows
 import com.example.adrianwong.domain.usecases.SearchTvShow
+import com.example.adrianwong.watchit.common.notifyObserver
 import com.example.adrianwong.watchit.contentlist.ContentListLogic
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.entities.TvShow
@@ -23,11 +23,17 @@ class TvShowListLogic(dispatcher: DispatcherProvider,
     }
 
     override fun onListRefresh() {
+        updateTvShowList(1)
+        mViewModel.pageNumber = 1
+    }
+
+    override fun onLoadMoreData() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onStart() {
         if (mViewModel.content.value.isNullOrEmpty()) {
-            updateTvShowList(mViewModel.pageNumber)
+            updateTvShowList(mViewModel.pageNumber++)
         }
     }
 
@@ -45,7 +51,11 @@ class TvShowListLogic(dispatcher: DispatcherProvider,
             }
         }
 
-        mViewModel.content.value = tvShows
-        mViewModel.pageNumber++
+        mViewModel.content.value?.run {
+            addAll(tvShows)
+            mViewModel.content.notifyObserver()
+        } ?: run {
+            mViewModel.content.value = tvShows.toMutableList()
+        }
     }
 }

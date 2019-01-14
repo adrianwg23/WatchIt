@@ -24,6 +24,7 @@ abstract class ContentListLogic<T>(dispatcher: DispatcherProvider,
         when(event) {
             is ContentListEvent.OnListItemClick<*> -> onListItemClick()
             is ContentListEvent.OnListRefresh -> onListRefresh()
+            is ContentListEvent.OnLoadMoreData -> onLoadMoreData()
             is ContentListEvent.OnStart -> onStart()
             is ContentListEvent.OnBind -> onBind()
             is ContentListEvent.OnDestroy -> onDestroy()
@@ -33,6 +34,8 @@ abstract class ContentListLogic<T>(dispatcher: DispatcherProvider,
     protected abstract fun onListItemClick()
 
     protected abstract fun onListRefresh()
+
+    protected abstract fun onLoadMoreData()
 
     protected abstract fun onStart()
 

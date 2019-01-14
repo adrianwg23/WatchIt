@@ -12,7 +12,7 @@ interface IContentListContract {
     }
 
     interface ViewModel<T> {
-        val content: MutableLiveData<List<T>>
+        val content: MutableLiveData<MutableList<T>>
         var pageNumber: Int
     }
 
@@ -24,6 +24,8 @@ interface IContentListContract {
 sealed class ContentListEvent {
     data class OnListItemClick<out T>(val content: T) : ContentListEvent()
     object OnListRefresh : ContentListEvent()
+    object OnLoadMoreData : ContentListEvent()
+    object OnItemFavourited : ContentListEvent()
     object OnStart : ContentListEvent()
     object OnBind : ContentListEvent()
     object OnDestroy : ContentListEvent()
