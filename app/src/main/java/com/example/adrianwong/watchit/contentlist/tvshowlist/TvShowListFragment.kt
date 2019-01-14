@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.entities.TvShow
+import kotlinx.android.synthetic.main.fragment_movie_list.*
 import kotlinx.android.synthetic.main.fragment_tv_show_list.*
 import javax.inject.Inject
 
@@ -27,6 +29,16 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
     @Inject lateinit var tvShowListLogic: IContentListContract.Logic
     @Inject lateinit var tvShowListAdapter: TvShowListAdapter
     private lateinit var tvShowsListViewModel: IContentListContract.ViewModel<TvShow>
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+
+            if (!tvShowRecyclerView.canScrollVertically(1)) {
+                tvShowListLogic.event(ContentListEvent.OnLoadMoreData)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         tvShowsListViewModel = ViewModelProviders.of(activity!!).get(TvShowListViewModel::class.java)
@@ -45,8 +57,11 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
         tvShowsListViewModel.content.observe(this, Observer { tvShows ->
             tvShows?.let {
                 tvShowListAdapter.submitList(it)
+                tvShowListAdapter.notifyDataSetChanged()
             }
         })
+
+        tvShowRecyclerView.addOnScrollListener(scrollListener)
 
         super.onViewCreated(view, savedInstanceState)
     }

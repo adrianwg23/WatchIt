@@ -7,8 +7,8 @@ import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
 abstract class ContentListLogic<T>(dispatcher: DispatcherProvider,
-                                var mView: IContentListContract.View,
-                                var mViewModel: IContentListContract.ViewModel<T>) :
+                                   var mView: IContentListContract.View,
+                                   var mViewModel: IContentListContract.ViewModel<T>) :
     BaseLogic(dispatcher), IContentListContract.Logic, CoroutineScope {
 
     init {
@@ -22,7 +22,8 @@ abstract class ContentListLogic<T>(dispatcher: DispatcherProvider,
 
     override fun event(event: ContentListEvent) {
         when(event) {
-            is ContentListEvent.OnListItemClick<*> -> onListItemClick()
+            is ContentListEvent.OnListItemClick<*> -> onListItemClick(event.content as T)
+            is ContentListEvent.OnItemFavourited -> onItemFavourited(event.position)
             is ContentListEvent.OnListRefresh -> onListRefresh()
             is ContentListEvent.OnLoadMoreData -> onLoadMoreData()
             is ContentListEvent.OnStart -> onStart()
@@ -31,7 +32,9 @@ abstract class ContentListLogic<T>(dispatcher: DispatcherProvider,
         }
     }
 
-    protected abstract fun onListItemClick()
+    protected abstract fun onListItemClick(content: T)
+
+    protected abstract fun onItemFavourited(position: Int)
 
     protected abstract fun onListRefresh()
 

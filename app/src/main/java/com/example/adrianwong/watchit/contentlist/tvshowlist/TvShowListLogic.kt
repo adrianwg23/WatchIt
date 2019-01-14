@@ -13,13 +13,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class TvShowListLogic(dispatcher: DispatcherProvider,
-                         view: IContentListContract.View,
-                         viewModel: IContentListContract.ViewModel<TvShow>,
-                         private val mapper: Mapper<TvShowEntity, TvShow>,
-                         private val getPopularTvShows: GetPopularTvShows,
-                         private val searchTvShow: SearchTvShow) : ContentListLogic<TvShow>(dispatcher, view, viewModel) {
+                      view: IContentListContract.View,
+                      viewModel: IContentListContract.ViewModel<TvShow>,
+                      private val mapper: Mapper<TvShowEntity, TvShow>,
+                      private val getPopularTvShows: GetPopularTvShows,
+                      private val searchTvShow: SearchTvShow) : ContentListLogic<TvShow>(dispatcher, view, viewModel) {
 
-    override fun onListItemClick() {
+    override fun onListItemClick(content: TvShow) {
+    }
+
+    override fun onItemFavourited(position: Int) {
+        val tvShow = mViewModel.content.value!![position]
+        tvShow.isFavourite = !tvShow.isFavourite
     }
 
     override fun onListRefresh() {
@@ -28,7 +33,7 @@ class TvShowListLogic(dispatcher: DispatcherProvider,
     }
 
     override fun onLoadMoreData() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        updateTvShowList(mViewModel.pageNumber++)
     }
 
     override fun onStart() {

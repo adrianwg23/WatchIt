@@ -25,7 +25,7 @@ sealed class ContentListEvent {
     data class OnListItemClick<out T>(val content: T) : ContentListEvent()
     object OnListRefresh : ContentListEvent()
     object OnLoadMoreData : ContentListEvent()
-    object OnItemFavourited : ContentListEvent()
+    data class OnItemFavourited(val position: Int) : ContentListEvent()
     object OnStart : ContentListEvent()
     object OnBind : ContentListEvent()
     object OnDestroy : ContentListEvent()

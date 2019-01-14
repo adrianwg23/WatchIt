@@ -28,7 +28,7 @@ class MovieListFragment : Fragment(), IContentListContract.View {
     @Inject lateinit var movieListAdapter: MovieListAdapter
     private lateinit var movieListViewModel: IContentListContract.ViewModel<Movie>
 
-    val scrollListener = object : RecyclerView.OnScrollListener() {
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
 

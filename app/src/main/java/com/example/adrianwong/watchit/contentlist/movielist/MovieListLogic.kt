@@ -13,13 +13,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MovieListLogic(dispatcher: DispatcherProvider,
-                        view: IContentListContract.View,
-                        viewModel: IContentListContract.ViewModel<Movie>,
-                        private val mapper: Mapper<MovieEntity, Movie>,
-                        private val getPopularMovies: GetPopularMovies,
-                        private val searchMovie: SearchMovie) : ContentListLogic<Movie>(dispatcher, view, viewModel) {
+                     view: IContentListContract.View,
+                     viewModel: IContentListContract.ViewModel<Movie>,
+                     private val mapper: Mapper<MovieEntity, Movie>,
+                     private val getPopularMovies: GetPopularMovies,
+                     private val searchMovie: SearchMovie) : ContentListLogic<Movie>(dispatcher, view, viewModel) {
 
-    override fun onListItemClick() {
+    override fun onListItemClick(content: Movie) {
+    }
+
+    override fun onItemFavourited(position: Int) {
+        val movie = mViewModel.content.value!![position]
+        movie.isFavourite = !movie.isFavourite
     }
 
     override fun onListRefresh() {

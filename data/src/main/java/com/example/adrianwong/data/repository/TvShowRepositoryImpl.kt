@@ -2,6 +2,7 @@ package com.example.adrianwong.data.repository
 
 import com.example.adrianwong.data.api.ApiConstants
 import com.example.adrianwong.data.api.MovieApiService
+import com.example.adrianwong.data.db.FavouritesDatabase
 import com.example.adrianwong.data.entities.TvShowData
 import com.example.adrianwong.data.mappers.TvShowDataToTvShowEntityMapper
 import com.example.adrianwong.domain.common.Mapper
@@ -9,6 +10,7 @@ import com.example.adrianwong.domain.entities.TvShowEntity
 import com.example.adrianwong.domain.repository.ITvShowRepository
 
 class TvShowRepositoryImpl(private val movieApiService: MovieApiService,
+                           private val database: FavouritesDatabase,
                            private val mapper: Mapper<TvShowData, TvShowEntity>) : ITvShowRepository {
 
 
