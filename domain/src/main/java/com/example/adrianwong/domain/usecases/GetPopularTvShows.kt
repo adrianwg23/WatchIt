@@ -1,10 +1,11 @@
 package com.example.adrianwong.domain.usecases
 
+import com.example.adrianwong.domain.entities.TvShowEntity
 import com.example.adrianwong.domain.repository.ITvShowRepository
 
-class GetPopularTvShows(tvShowRepository: ITvShowRepository) {
+class GetPopularTvShows(private val tvShowRepository: ITvShowRepository) {
 
-    fun execute() {
-
+    suspend fun execute(page: Int): List<TvShowEntity> {
+        return tvShowRepository.getPopularTvShows(page)
     }
 }

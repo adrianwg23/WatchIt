@@ -6,7 +6,6 @@ interface IContentListContract {
 
     interface View {
         fun setAdapter()
-        fun showList()
         fun showLoadingView()
         fun setToolBarTitle()
         fun startContentDetailsActivity()
@@ -14,7 +13,7 @@ interface IContentListContract {
 
     interface ViewModel<T> {
         val content: MutableLiveData<List<T>>
-        val pageNumber: Int
+        var pageNumber: Int
     }
 
     interface Logic {

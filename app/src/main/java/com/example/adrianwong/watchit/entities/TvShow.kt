@@ -1,5 +1,11 @@
 package com.example.adrianwong.watchit.entities
 
-class TvShow() {
-
-}
+data class TvShow(
+    var id: Int = -1 ,
+    var name: String,
+    var voteAverage: Double = 0.0,
+    var posterPath: String? = null,
+    var overView: String? = null,
+    var firstAirDate: String? = null,
+    var isFavourite: Boolean = false
+)

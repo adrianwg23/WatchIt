@@ -28,7 +28,7 @@ class MovieApplication : Application() {
 
         mainComponent = DaggerMainComponent.builder()
             .appModule(AppModule(applicationContext))
-            .networkModule(NetworkModule("http://google.com/"))
+            .networkModule(NetworkModule(getString(R.string.base_url)))
             .dataModule(DataModule())
             .build()
     }

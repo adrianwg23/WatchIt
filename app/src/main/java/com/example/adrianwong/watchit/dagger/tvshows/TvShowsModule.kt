@@ -8,6 +8,7 @@ import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListAdapter
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListLogic
 import com.example.adrianwong.watchit.entities.TvShow
+import com.example.adrianwong.watchit.mappers.TvShowEntityToTvShowMapper
 import dagger.Module
 import dagger.Provides
 
@@ -35,6 +36,6 @@ class TvShowsModule(private val view: IContentListContract.View, private val vie
     @Provides
     @TvShowsScope
     fun providesTvShowListLogic(getPopularTvShows: GetPopularTvShows, searchTvShow: SearchTvShow): IContentListContract.Logic {
-        return TvShowListLogic(DispatcherProvider, view, viewModel, getPopularTvShows, searchTvShow)
+        return TvShowListLogic(DispatcherProvider, view, viewModel, TvShowEntityToTvShowMapper, getPopularTvShows, searchTvShow)
     }
 }

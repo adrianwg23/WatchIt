@@ -6,5 +6,5 @@ import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.entities.Movie
 
 class MovieListViewModel(override val content: MutableLiveData<List<Movie>> = MutableLiveData(),
-                         override val pageNumber: Int = 1) : ViewModel(),
+                         override var pageNumber: Int = 1) : ViewModel(),
     IContentListContract.ViewModel<Movie>

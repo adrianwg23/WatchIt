@@ -2,6 +2,7 @@ package com.example.adrianwong.watchit.contentlist.tvshowlist
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,7 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
     private lateinit var tvShowsListViewModel: IContentListContract.ViewModel<TvShow>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        tvShowsListViewModel = ViewModelProviders.of(this).get(TvShowListViewModel::class.java)
+        tvShowsListViewModel = ViewModelProviders.of(activity!!).get(TvShowListViewModel::class.java)
         (activity?.application as MovieApplication).createTvShowsComponent(this, tvShowsListViewModel).inject(this)
 
         super.onCreate(savedInstanceState)
@@ -63,9 +64,6 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
 
     override fun setAdapter() {
         tvShowRecyclerView.adapter = tvShowListAdapter
-    }
-
-    override fun showList() {
     }
 
     override fun showLoadingView() {

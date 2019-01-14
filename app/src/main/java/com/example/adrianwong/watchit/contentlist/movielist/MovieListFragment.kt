@@ -1,6 +1,7 @@
 package com.example.adrianwong.watchit.contentlist.movielist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ class MovieListFragment : Fragment(), IContentListContract.View {
     private lateinit var movieListViewModel: IContentListContract.ViewModel<Movie>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        movieListViewModel = ViewModelProviders.of(this).get(MovieListViewModel::class.java)
+        movieListViewModel = ViewModelProviders.of(activity!!).get(MovieListViewModel::class.java)
         (activity?.application as MovieApplication).createMoviesComponent(this, movieListViewModel).inject(this)
 
         super.onCreate(savedInstanceState)
@@ -49,22 +50,20 @@ class MovieListFragment : Fragment(), IContentListContract.View {
         super.onViewCreated(view, savedInstanceState)
     }
 
+
     override fun onStart() {
         movieListLogic.event(ContentListEvent.OnStart)
         super.onStart()
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         movieListLogic.event(ContentListEvent.OnDestroy)
         (activity?.application as MovieApplication).releaseMoviesComponent()
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     override fun setAdapter() {
         movieRecyclerView.adapter = movieListAdapter
-    }
-
-    override fun showList() {
     }
 
     override fun showLoadingView() {

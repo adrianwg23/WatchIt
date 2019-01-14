@@ -1,17 +1,22 @@
 package com.example.adrianwong.watchit.contentlist.movielist
 
 import com.example.adrianwong.domain.DispatcherProvider
+import com.example.adrianwong.domain.common.Mapper
+import com.example.adrianwong.domain.entities.MovieEntity
 import com.example.adrianwong.domain.usecases.GetPopularMovies
 import com.example.adrianwong.domain.usecases.SearchMovie
 import com.example.adrianwong.watchit.contentlist.ContentListLogic
 import com.example.adrianwong.watchit.contentlist.IContentListContract
-import kotlinx.coroutines.Job
+import com.example.adrianwong.watchit.entities.Movie
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MovieListLogic<T>(dispatcher: DispatcherProvider,
+class MovieListLogic(dispatcher: DispatcherProvider,
                         view: IContentListContract.View,
-                        viewModel: IContentListContract.ViewModel<T>,
+                        viewModel: IContentListContract.ViewModel<Movie>,
+                        private val mapper: Mapper<MovieEntity, Movie>,
                         private val getPopularMovies: GetPopularMovies,
-                        private val searchMovie: SearchMovie) : ContentListLogic<T>(dispatcher, view, viewModel) {
+                        private val searchMovie: SearchMovie) : ContentListLogic<Movie>(dispatcher, view, viewModel) {
 
     override fun onListItemClick() {
     }
@@ -20,9 +25,8 @@ class MovieListLogic<T>(dispatcher: DispatcherProvider,
     }
 
     override fun onStart() {
-        jobTracker = Job()
         if (mViewModel.content.value.isNullOrEmpty()) {
-            getPopularMovies.execute()
+            updateMovieList(mViewModel.pageNumber)
         }
     }
 
@@ -31,5 +35,16 @@ class MovieListLogic<T>(dispatcher: DispatcherProvider,
             setToolBarTitle()
             setAdapter()
         }
+    }
+
+    private fun updateMovieList(page: Int) = launch {
+        val movies = withContext(dispatcher.provideIOContext()) {
+            getPopularMovies.execute(page).map { movieEntity ->
+                mapper.mapFrom(movieEntity)
+            }
+        }
+
+        mViewModel.content.value = movies
+        mViewModel.pageNumber++
     }
 }

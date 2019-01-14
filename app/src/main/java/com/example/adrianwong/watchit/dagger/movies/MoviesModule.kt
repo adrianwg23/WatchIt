@@ -8,6 +8,7 @@ import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.contentlist.movielist.MovieListAdapter
 import com.example.adrianwong.watchit.contentlist.movielist.MovieListLogic
 import com.example.adrianwong.watchit.entities.Movie
+import com.example.adrianwong.watchit.mappers.MovieEntityToMovieMapper
 import dagger.Module
 import dagger.Provides
 
@@ -35,6 +36,6 @@ class MoviesModule(private val view: IContentListContract.View, private val view
     @Provides
     @MoviesScope
     fun providesMovieListLogic(getPopularMovies: GetPopularMovies, searchMovie: SearchMovie): IContentListContract.Logic {
-        return MovieListLogic(DispatcherProvider, view, viewModel, getPopularMovies, searchMovie)
+        return MovieListLogic(DispatcherProvider, view, viewModel, MovieEntityToMovieMapper, getPopularMovies, searchMovie)
     }
 }

@@ -1,8 +1,10 @@
 package com.example.adrianwong.domain.repository
 
+import com.example.adrianwong.domain.entities.MovieEntity
+
 interface IMovieRepository {
 
-    fun getPopularMovies()
-    fun getMovieDetails()
-    fun searchMovie()
+    suspend fun getPopularMovies(page: Int): List<MovieEntity>
+    suspend fun getMovieDetails(): MovieEntity?
+    suspend fun searchMovie(): List<MovieEntity>?
 }

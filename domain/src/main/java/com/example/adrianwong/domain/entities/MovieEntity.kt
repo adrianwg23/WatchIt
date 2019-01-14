@@ -1,6 +1,11 @@
 package com.example.adrianwong.domain.entities
 
 
-class MovieEntity() {
-    // TODO make this a data class later
-}
+data class MovieEntity(
+    var id: Int = -1 ,
+    var title: String,
+    var voteAverage: Double = 0.0,
+    var posterPath: String? = null,
+    var overView: String? = null,
+    var releaseDate: String? = null
+)
