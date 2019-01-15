@@ -4,17 +4,16 @@ import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.domain.repository.ITvShowRepository
 import com.example.adrianwong.domain.usecases.GetPopularTvShows
 import com.example.adrianwong.domain.usecases.SearchTvShow
-import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.contentlist.ContentListAdapter
+import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListFragment
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListLogic
-import com.example.adrianwong.watchit.entities.TvShow
 import com.example.adrianwong.watchit.mappers.TvShowEntityToTvShowMapper
 import dagger.Module
 import dagger.Provides
 
 @Module
-class TvShowsModule(private val view: IContentListContract.View, private val viewModel: IContentListContract.ViewModel<TvShow>) {
+class TvShowsModule(private val view: IContentListContract.View, private val viewModel: IContentListContract.ViewModel) {
 
     @Provides
     @TvShowsScope
@@ -31,10 +30,7 @@ class TvShowsModule(private val view: IContentListContract.View, private val vie
     @Provides
     @TvShowsScope
     fun providesTvShowListAdapter(tvShowListLogic: IContentListContract.Logic): ContentListAdapter {
-        return ContentListAdapter(
-            tvShowListLogic,
-            view as TvShowListFragment
-        )
+        return ContentListAdapter(tvShowListLogic, view as TvShowListFragment)
     }
 
     @Provides

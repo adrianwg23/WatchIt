@@ -1,6 +1,8 @@
 package com.example.adrianwong.watchit.contentlist
 
 import androidx.lifecycle.MutableLiveData
+import com.example.adrianwong.watchit.entities.Movie
+import com.example.adrianwong.watchit.entities.TvShow
 
 interface IContentListContract {
 
@@ -11,9 +13,11 @@ interface IContentListContract {
         fun startContentDetailsActivity()
     }
 
-    interface ViewModel<T> {
-        val content: MutableLiveData<MutableList<T>>
-        var pageNumber: Int
+    interface ViewModel {
+        val movies: MutableLiveData<MutableList<Movie>>
+        val tvShows: MutableLiveData<MutableList<TvShow>>
+        var moviesPageNumber: Int
+        var tvShowsPageNumber: Int
     }
 
     interface Logic {

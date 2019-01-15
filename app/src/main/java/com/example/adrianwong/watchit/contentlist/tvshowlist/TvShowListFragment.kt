@@ -13,6 +13,7 @@ import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
 import com.example.adrianwong.watchit.contentlist.ContentListAdapter
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
+import com.example.adrianwong.watchit.contentlist.ContentListViewModel
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.entities.Content
 import com.example.adrianwong.watchit.entities.TvShow
@@ -28,7 +29,7 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
 
     @Inject lateinit var tvShowListLogic: IContentListContract.Logic
     @Inject lateinit var contentListAdapter: ContentListAdapter
-    private lateinit var tvShowsListViewModel: IContentListContract.ViewModel<TvShow>
+    private lateinit var tvShowsListViewModel: ContentListViewModel
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -41,7 +42,7 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        tvShowsListViewModel = ViewModelProviders.of(activity!!).get(TvShowListViewModel::class.java)
+        tvShowsListViewModel = ViewModelProviders.of(activity!!).get(ContentListViewModel::class.java)
         (activity?.application as MovieApplication).createTvShowsComponent(this, tvShowsListViewModel).inject(this)
 
         super.onCreate(savedInstanceState)
@@ -54,7 +55,7 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         tvShowListLogic.event(ContentListEvent.OnBind)
-        tvShowsListViewModel.content.observe(this, Observer { tvShows ->
+        tvShowsListViewModel.tvShows.observe(this, Observer { tvShows ->
             tvShows?.let {
                 contentListAdapter.submitList(it as MutableList<Content>)
                 contentListAdapter.notifyDataSetChanged()

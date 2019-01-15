@@ -4,17 +4,16 @@ import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.domain.repository.IMovieRepository
 import com.example.adrianwong.domain.usecases.GetPopularMovies
 import com.example.adrianwong.domain.usecases.SearchMovie
+import com.example.adrianwong.watchit.contentlist.ContentListAdapter
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.contentlist.movielist.MovieListFragment
 import com.example.adrianwong.watchit.contentlist.movielist.MovieListLogic
-import com.example.adrianwong.watchit.contentlist.ContentListAdapter
-import com.example.adrianwong.watchit.entities.Movie
 import com.example.adrianwong.watchit.mappers.MovieEntityToMovieMapper
 import dagger.Module
 import dagger.Provides
 
 @Module
-class MoviesModule(private val view: IContentListContract.View, private val viewModel: IContentListContract.ViewModel<Movie>) {
+class MoviesModule(private val view: IContentListContract.View, private val viewModel: IContentListContract.ViewModel) {
 
     @Provides
     @MoviesScope
