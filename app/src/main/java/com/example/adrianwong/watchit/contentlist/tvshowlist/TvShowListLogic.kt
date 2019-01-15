@@ -6,7 +6,7 @@ import com.example.adrianwong.domain.entities.TvShowEntity
 import com.example.adrianwong.domain.usecases.GetPopularTvShows
 import com.example.adrianwong.domain.usecases.SearchTvShow
 import com.example.adrianwong.watchit.common.notifyObserver
-import com.example.adrianwong.watchit.common.BaseLogic
+import com.example.adrianwong.watchit.contentlist.ContentListLogic
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.entities.TvShow
 import kotlinx.coroutines.Job
@@ -18,7 +18,7 @@ class TvShowListLogic(dispatcher: DispatcherProvider,
                       viewModel: IContentListContract.ViewModel,
                       private val mapper: Mapper<TvShowEntity, TvShow>,
                       private val getPopularTvShows: GetPopularTvShows,
-                      private val searchTvShow: SearchTvShow) : BaseLogic<TvShow>(dispatcher, view, viewModel) {
+                      private val searchTvShow: SearchTvShow) : ContentListLogic<TvShow>(dispatcher, view, viewModel) {
 
     override fun onListItemClick(content: TvShow) {
     }

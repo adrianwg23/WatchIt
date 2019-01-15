@@ -25,7 +25,7 @@ class MovieListFragment : Fragment(), IContentListContract.View {
 
     @Inject lateinit var movieListLogic: IContentListContract.Logic
     @Inject lateinit var contentListAdapter: ContentListAdapter
-    private lateinit var movieListViewModel: ContentListViewModel
+    private lateinit var contentListViewModel: ContentListViewModel
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -38,8 +38,8 @@ class MovieListFragment : Fragment(), IContentListContract.View {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        movieListViewModel = ViewModelProviders.of(this).get(ContentListViewModel::class.java)
-        (activity?.application as MovieApplication).createMoviesComponent(this, movieListViewModel).inject(this)
+        contentListViewModel = ViewModelProviders.of(this).get(ContentListViewModel::class.java)
+        (activity?.application as MovieApplication).createMoviesComponent(this, contentListViewModel).inject(this)
 
         super.onCreate(savedInstanceState)
     }
@@ -51,7 +51,7 @@ class MovieListFragment : Fragment(), IContentListContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         movieListLogic.event(ContentListEvent.OnBind)
-        movieListViewModel.movies.observe(this, Observer { movies ->
+        contentListViewModel.movies.observe(this, Observer { movies ->
             movies?.let {
                 contentListAdapter.submitList(it as MutableList<Content>)
                 contentListAdapter.notifyDataSetChanged()
