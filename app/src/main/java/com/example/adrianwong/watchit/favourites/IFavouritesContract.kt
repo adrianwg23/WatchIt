@@ -16,14 +16,4 @@ interface IFavouritesContract {
         val movies: MutableLiveData<MutableList<Movie>>
         val tvShows: MutableLiveData<MutableList<TvShow>>
     }
-
-    interface Logic {
-        fun event(event: FavouritesEvent)
-    }
-}
-
-sealed class FavouritesEvent {
-    data class OnItemFavourited(val position: Int) : FavouritesEvent()
-    object OnStart : FavouritesEvent()
-    object OnBind : FavouritesEvent()
 }

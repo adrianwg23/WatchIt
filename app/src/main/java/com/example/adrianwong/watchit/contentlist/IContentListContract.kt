@@ -1,6 +1,7 @@
 package com.example.adrianwong.watchit.contentlist
 
 import androidx.lifecycle.MutableLiveData
+import com.example.adrianwong.watchit.entities.ContentType
 import com.example.adrianwong.watchit.entities.Movie
 import com.example.adrianwong.watchit.entities.TvShow
 
@@ -29,6 +30,7 @@ sealed class ContentListEvent {
     data class OnListItemClick<out T>(val content: T) : ContentListEvent()
     object OnListRefresh : ContentListEvent()
     object OnLoadMoreData : ContentListEvent()
+    data class OnFavouriteContentChanged(val contentType: ContentType): ContentListEvent()
     data class OnItemFavourited(val position: Int) : ContentListEvent()
     object OnStart : ContentListEvent()
     object OnBind : ContentListEvent()

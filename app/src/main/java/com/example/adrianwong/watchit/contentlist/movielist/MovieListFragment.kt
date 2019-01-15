@@ -1,6 +1,7 @@
 package com.example.adrianwong.watchit.contentlist.movielist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -38,7 +39,7 @@ class MovieListFragment : Fragment(), IContentListContract.View {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        contentListViewModel = ViewModelProviders.of(this).get(ContentListViewModel::class.java)
+        contentListViewModel = ViewModelProviders.of(activity!!).get(ContentListViewModel::class.java)
         (activity?.application as MovieApplication).createMoviesComponent(this, contentListViewModel).inject(this)
 
         super.onCreate(savedInstanceState)

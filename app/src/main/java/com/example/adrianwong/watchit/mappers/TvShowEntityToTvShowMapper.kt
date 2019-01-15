@@ -14,7 +14,9 @@ object TvShowEntityToTvShowMapper : Mapper<TvShowEntity, TvShow>() {
             id = from.id,
             title = from.name,
             voteAverage = from.voteAverage,
+            posterUrl = from.posterPath,
             posterPath = from.posterPath?.let { POSTER_BASE_URL + from.posterPath },
+            backdropUrl = from.backDropPath,
             backDropPath = from.backDropPath?.let { BACKDROP_BASE_URL + from.backDropPath },
             overView = from.overView,
             releaseDate = from.firstAirDate

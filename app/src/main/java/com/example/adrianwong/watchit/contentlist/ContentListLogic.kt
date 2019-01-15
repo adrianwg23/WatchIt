@@ -3,6 +3,7 @@ package com.example.adrianwong.watchit.contentlist
 import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.watchit.common.BaseLogic
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
 abstract class ContentListLogic<T>(dispatcher: DispatcherProvider,
@@ -10,10 +11,12 @@ abstract class ContentListLogic<T>(dispatcher: DispatcherProvider,
                             var mViewModel: IContentListContract.ViewModel) :
     BaseLogic(dispatcher), IContentListContract.Logic, CoroutineScope {
 
+    init {
+        jobTracker = Job()
+    }
+
     override val coroutineContext: CoroutineContext
         get() = dispatcher.provideUIContext() + jobTracker
-
-
 
     override fun event(event: ContentListEvent) {
         when(event) {

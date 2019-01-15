@@ -1,14 +1,18 @@
 package com.example.adrianwong.watchit.favourites
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
+import com.example.adrianwong.watchit.R.id.tvShows
 import com.example.adrianwong.watchit.contentlist.ContentListAdapter
+import com.example.adrianwong.watchit.contentlist.ContentListEvent
+import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.entities.Content
+import com.example.adrianwong.watchit.entities.ContentType
 import kotlinx.android.synthetic.main.fragment_favourites.*
 import javax.inject.Inject
 
@@ -18,10 +22,29 @@ import javax.inject.Inject
  */
 class FavouritesFragment : Fragment(), IFavouritesContract.View {
 
-    @Inject lateinit var logic: IFavouritesContract.Logic
+    @Inject lateinit var logic: IContentListContract.Logic
     @Inject lateinit var contentAdapter: ContentListAdapter
     private lateinit var favouritesViewModel: IFavouritesContract.ViewModel
     private lateinit var removedFavouritesViewModel: IFavouritesContract.ViewModel
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.content, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.movies -> {
+                logic.event(ContentListEvent.OnFavouriteContentChanged(ContentType.MOVIE))
+                true
+            }
+            R.id.tvShows -> {
+                logic.event(ContentListEvent.OnFavouriteContentChanged(ContentType.TV_SHOW))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         favouritesViewModel = ViewModelProviders.of(activity!!).get(FavouritesViewModel::class.java)
@@ -29,6 +52,8 @@ class FavouritesFragment : Fragment(), IFavouritesContract.View {
         (activity?.application as MovieApplication)
             .createFavouritesComponent(this, favouritesViewModel, removedFavouritesViewModel)
             .inject(this)
+
+        setHasOptionsMenu(true)
 
         super.onCreate(savedInstanceState)
     }
@@ -39,12 +64,25 @@ class FavouritesFragment : Fragment(), IFavouritesContract.View {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        logic.event(FavouritesEvent.OnBind)
+        logic.event(ContentListEvent.OnBind)
+
+        favouritesViewModel.movies.observe(this, Observer { movies ->
+            movies?.let {
+                contentAdapter.submitList(it as MutableList<Content>)
+            }
+        })
+
+        favouritesViewModel.tvShows.observe(this, Observer { tvShows ->
+            tvShows?.let {
+                contentAdapter.submitList(it as MutableList<Content>)
+            }
+        })
+
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onStart() {
-        logic.event(FavouritesEvent.OnStart)
+        logic.event(ContentListEvent.OnStart)
         super.onStart()
     }
 

@@ -4,7 +4,8 @@ import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.domain.common.Mapper
 import com.example.adrianwong.domain.entities.TvShowEntity
 import com.example.adrianwong.domain.usecases.GetPopularTvShows
-import com.example.adrianwong.domain.usecases.SearchTvShow
+import com.example.adrianwong.domain.usecases.RemoveFavouriteTvShow
+import com.example.adrianwong.domain.usecases.SaveFavouriteTvShow
 import com.example.adrianwong.watchit.common.notifyObserver
 import com.example.adrianwong.watchit.contentlist.ContentListLogic
 import com.example.adrianwong.watchit.contentlist.IContentListContract
@@ -16,15 +17,24 @@ import kotlinx.coroutines.withContext
 class TvShowListLogic(dispatcher: DispatcherProvider,
                       view: IContentListContract.View,
                       viewModel: IContentListContract.ViewModel,
-                      private val mapper: Mapper<TvShowEntity, TvShow>,
+                      private val entityToTvShowMapper: Mapper<TvShowEntity, TvShow>,
+                      private val tvShowToEntityMapper: Mapper<TvShow, TvShowEntity>,
                       private val getPopularTvShows: GetPopularTvShows,
-                      private val searchTvShow: SearchTvShow) : ContentListLogic<TvShow>(dispatcher, view, viewModel) {
+                      private val saveFavouriteTvShow: SaveFavouriteTvShow,
+                      private val removeFavouriteTvShow: RemoveFavouriteTvShow) : ContentListLogic<TvShow>(dispatcher, view, viewModel) {
 
     override fun onListItemClick(content: TvShow) {
     }
 
     override fun onItemFavourited(position: Int) {
         val tvShow = mViewModel.tvShows.value!![position]
+
+        if(!tvShow.isFavourite) {
+            saveTvShow(tvShow)
+        } else {
+            removeTvShow(tvShow)
+        }
+
         tvShow.isFavourite = !tvShow.isFavourite
     }
 
@@ -55,7 +65,7 @@ class TvShowListLogic(dispatcher: DispatcherProvider,
     private fun updateTvShowList(page: Int) = launch {
         val tvShows = withContext(dispatcher.provideIOContext()) {
             getPopularTvShows.execute(page).map {tvShowEntity ->
-                mapper.mapFrom(tvShowEntity)
+                entityToTvShowMapper.mapFrom(tvShowEntity)
             }
         }
 
@@ -64,6 +74,18 @@ class TvShowListLogic(dispatcher: DispatcherProvider,
             mViewModel.tvShows.notifyObserver()
         } ?: run {
             mViewModel.tvShows.value = tvShows.toMutableList()
+        }
+    }
+
+    private fun saveTvShow(tvShow: TvShow) = launch {
+        withContext(dispatcher.provideIOContext()) {
+            saveFavouriteTvShow.execute(tvShowToEntityMapper.mapFrom(tvShow))
+        }
+    }
+
+    private fun removeTvShow(tvShow: TvShow) = launch {
+        withContext(dispatcher.provideIOContext()) {
+            removeFavouriteTvShow.execute(tvShowToEntityMapper.mapFrom(tvShow))
         }
     }
 }

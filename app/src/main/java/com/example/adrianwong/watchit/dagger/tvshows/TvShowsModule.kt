@@ -2,13 +2,13 @@ package com.example.adrianwong.watchit.dagger.tvshows
 
 import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.domain.repository.ITvShowRepository
-import com.example.adrianwong.domain.usecases.GetPopularTvShows
-import com.example.adrianwong.domain.usecases.SearchTvShow
+import com.example.adrianwong.domain.usecases.*
 import com.example.adrianwong.watchit.contentlist.ContentListAdapter
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListFragment
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListLogic
 import com.example.adrianwong.watchit.mappers.TvShowEntityToTvShowMapper
+import com.example.adrianwong.watchit.mappers.TvShowToTvShowEntityMapper
 import dagger.Module
 import dagger.Provides
 
@@ -29,13 +29,27 @@ class TvShowsModule(private val view: IContentListContract.View, private val vie
 
     @Provides
     @TvShowsScope
+    fun providesSaveFavouriteTvShow(tvShowRepository: ITvShowRepository): SaveFavouriteTvShow {
+        return SaveFavouriteTvShow(tvShowRepository)
+    }
+
+    @Provides
+    @TvShowsScope
+    fun providesRemoveFavouriteTvShow(tvShowRepository: ITvShowRepository): RemoveFavouriteTvShow {
+        return RemoveFavouriteTvShow(tvShowRepository)
+    }
+
+    @Provides
+    @TvShowsScope
     fun providesTvShowListAdapter(tvShowListLogic: IContentListContract.Logic): ContentListAdapter {
         return ContentListAdapter(tvShowListLogic, view as TvShowListFragment)
     }
 
     @Provides
     @TvShowsScope
-    fun providesTvShowListLogic(getPopularTvShows: GetPopularTvShows, searchTvShow: SearchTvShow): IContentListContract.Logic {
-        return TvShowListLogic(DispatcherProvider, view, viewModel, TvShowEntityToTvShowMapper, getPopularTvShows, searchTvShow)
+    fun providesTvShowListLogic(getPopularTvShows: GetPopularTvShows, saveFavouriteTvShow: SaveFavouriteTvShow,
+                                removeFavouriteTvShow: RemoveFavouriteTvShow): IContentListContract.Logic {
+        return TvShowListLogic(DispatcherProvider, view, viewModel, TvShowEntityToTvShowMapper, TvShowToTvShowEntityMapper,
+            getPopularTvShows, saveFavouriteTvShow, removeFavouriteTvShow)
     }
 }

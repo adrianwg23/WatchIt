@@ -15,7 +15,9 @@ object MovieEntityToMovieMapper : Mapper<MovieEntity, Movie>() {
             id = from.id,
             title = from.title,
             voteAverage = from.voteAverage,
+            posterUrl = from.posterPath,
             posterPath = from.posterPath?.let { POSTER_BASE_URL + from.posterPath },
+            backdropUrl = from.backDropPath,
             backDropPath = from.backDropPath?.let { BACKDROP_BASE_URL + from.backDropPath },
             overView = from.overView,
             releaseDate = from.releaseDate
