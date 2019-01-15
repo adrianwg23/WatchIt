@@ -5,10 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.adrianwong.data.entities.MovieData
+import com.example.adrianwong.data.entities.TvShowData
 
 const val DATABASE_NAME = "favourites_database"
 
-@Database(entities = [MovieData::class], version = 1, exportSchema = false)
+@Database(entities = [MovieData::class, TvShowData::class], version = 1, exportSchema = false)
 abstract class FavouritesDatabase : RoomDatabase() {
 
     abstract fun favouritesDao(): FavouritesDao

@@ -1,10 +1,8 @@
 package com.example.adrianwong.watchit.contentlist.movielist
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +11,8 @@ import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.contentlist.ContentListAdapter
+import com.example.adrianwong.watchit.entities.Content
 import com.example.adrianwong.watchit.entities.Movie
 import kotlinx.android.synthetic.main.fragment_movie_list.*
 import javax.inject.Inject
@@ -25,7 +25,7 @@ import javax.inject.Inject
 class MovieListFragment : Fragment(), IContentListContract.View {
 
     @Inject lateinit var movieListLogic: IContentListContract.Logic
-    @Inject lateinit var movieListAdapter: MovieListAdapter
+    @Inject lateinit var contentListAdapter: ContentListAdapter
     private lateinit var movieListViewModel: IContentListContract.ViewModel<Movie>
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
@@ -35,6 +35,25 @@ class MovieListFragment : Fragment(), IContentListContract.View {
             if (!movieRecyclerView.canScrollVertically(1)) {
                 movieListLogic.event(ContentListEvent.OnLoadMoreData)
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.content, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.movies -> {
+                Toast.makeText(activity, "movies", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.tvShows -> {
+                Toast.makeText(activity, "tvshows", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -54,8 +73,8 @@ class MovieListFragment : Fragment(), IContentListContract.View {
         movieListLogic.event(ContentListEvent.OnBind)
         movieListViewModel.content.observe(this, Observer { movies ->
             movies?.let {
-                movieListAdapter.submitList(it)
-                movieListAdapter.notifyDataSetChanged()
+                contentListAdapter.submitList(it as MutableList<Content>)
+                contentListAdapter.notifyDataSetChanged()
 
             }
         })
@@ -78,7 +97,7 @@ class MovieListFragment : Fragment(), IContentListContract.View {
     }
 
     override fun setAdapter() {
-        movieRecyclerView.adapter = movieListAdapter
+        movieRecyclerView.adapter = contentListAdapter
     }
 
     override fun showLoadingView() {

@@ -1,12 +1,12 @@
 package com.example.adrianwong.watchit.entities
 
 data class Movie(
-    var id: Int = -1 ,
-    var title: String,
-    var voteAverage: Double = 0.0,
-    var posterPath: String? = null,
-    var backDropPath: String? = null,
-    var overView: String? = null,
-    var releaseDate: String? = null,
-    var isFavourite: Boolean = false
-)
+    override var id: Int,
+    override var title: String,
+    override var voteAverage: Double = 0.0,
+    override var posterPath: String? = null,
+    override var backDropPath: String? = null,
+    override var overView: String? = null,
+    override var releaseDate: String? = null,
+    override var isFavourite: Boolean = false
+) : Content(id, title, voteAverage, posterPath, backDropPath, overView, releaseDate, isFavourite, ContentType.MOVIE)

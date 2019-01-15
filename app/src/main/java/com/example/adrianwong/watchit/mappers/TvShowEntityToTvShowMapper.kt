@@ -12,12 +12,12 @@ object TvShowEntityToTvShowMapper : Mapper<TvShowEntity, TvShow>() {
     override fun mapFrom(from: TvShowEntity): TvShow {
         return TvShow(
             id = from.id,
-            name = from.name,
+            title = from.name,
             voteAverage = from.voteAverage,
             posterPath = from.posterPath?.let { POSTER_BASE_URL + from.posterPath },
             backDropPath = from.backDropPath?.let { BACKDROP_BASE_URL + from.backDropPath },
             overView = from.overView,
-            firstAirDate = from.firstAirDate
+            releaseDate = from.firstAirDate
         )
     }
 

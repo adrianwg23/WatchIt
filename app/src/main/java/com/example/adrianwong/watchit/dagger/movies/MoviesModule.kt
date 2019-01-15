@@ -5,9 +5,9 @@ import com.example.adrianwong.domain.repository.IMovieRepository
 import com.example.adrianwong.domain.usecases.GetPopularMovies
 import com.example.adrianwong.domain.usecases.SearchMovie
 import com.example.adrianwong.watchit.contentlist.IContentListContract
-import com.example.adrianwong.watchit.contentlist.movielist.MovieListAdapter
 import com.example.adrianwong.watchit.contentlist.movielist.MovieListFragment
 import com.example.adrianwong.watchit.contentlist.movielist.MovieListLogic
+import com.example.adrianwong.watchit.contentlist.ContentListAdapter
 import com.example.adrianwong.watchit.entities.Movie
 import com.example.adrianwong.watchit.mappers.MovieEntityToMovieMapper
 import dagger.Module
@@ -30,8 +30,8 @@ class MoviesModule(private val view: IContentListContract.View, private val view
 
     @Provides
     @MoviesScope
-    fun providesMovieListAdapter(movieListLogic: IContentListContract.Logic): MovieListAdapter {
-        return MovieListAdapter(movieListLogic, view as MovieListFragment)
+    fun providesMovieListAdapter(movieListLogic: IContentListContract.Logic): ContentListAdapter {
+        return ContentListAdapter(movieListLogic, view as MovieListFragment)
     }
 
     @Provides

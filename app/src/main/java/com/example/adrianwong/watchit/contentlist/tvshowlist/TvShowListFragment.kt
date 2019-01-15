@@ -2,7 +2,6 @@ package com.example.adrianwong.watchit.contentlist.tvshowlist
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
+import com.example.adrianwong.watchit.contentlist.ContentListAdapter
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.entities.Content
 import com.example.adrianwong.watchit.entities.TvShow
-import kotlinx.android.synthetic.main.fragment_movie_list.*
 import kotlinx.android.synthetic.main.fragment_tv_show_list.*
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ import javax.inject.Inject
 class TvShowListFragment : Fragment(), IContentListContract.View {
 
     @Inject lateinit var tvShowListLogic: IContentListContract.Logic
-    @Inject lateinit var tvShowListAdapter: TvShowListAdapter
+    @Inject lateinit var contentListAdapter: ContentListAdapter
     private lateinit var tvShowsListViewModel: IContentListContract.ViewModel<TvShow>
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
@@ -56,8 +56,8 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
         tvShowListLogic.event(ContentListEvent.OnBind)
         tvShowsListViewModel.content.observe(this, Observer { tvShows ->
             tvShows?.let {
-                tvShowListAdapter.submitList(it)
-                tvShowListAdapter.notifyDataSetChanged()
+                contentListAdapter.submitList(it as MutableList<Content>)
+                contentListAdapter.notifyDataSetChanged()
             }
         })
 
@@ -78,7 +78,7 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
     }
 
     override fun setAdapter() {
-        tvShowRecyclerView.adapter = tvShowListAdapter
+        tvShowRecyclerView.adapter = contentListAdapter
     }
 
     override fun showLoadingView() {
