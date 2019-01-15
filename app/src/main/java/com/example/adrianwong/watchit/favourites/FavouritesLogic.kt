@@ -86,11 +86,7 @@ class FavouritesLogic(dispatcher: DispatcherProvider,
         val favouriteMovies = withContext(dispatcher.provideIOContext()) {
             getFavouriteMovies.execute().map {
                 entityToMovieMapper.mapFrom(it)
-            }
-        }
-
-        for (movie in favouriteMovies) {
-            movie.isFavourite = true
+            }.map { it.copy(isFavourite = true) }
         }
 
         favouritesViewModel.movies.value = favouriteMovies.toMutableList()
@@ -100,11 +96,7 @@ class FavouritesLogic(dispatcher: DispatcherProvider,
         val favouriteTvShows = withContext(dispatcher.provideIOContext()) {
             getFavouriteTvShows.execute().map {
                 entityToTvShowMapper.mapFrom(it)
-            }
-        }
-
-        for (tvShow in favouriteTvShows) {
-            tvShow.isFavourite = true
+            }.map { it.copy(isFavourite = true) }
         }
 
         favouritesViewModel.tvShows.value = favouriteTvShows.toMutableList()
