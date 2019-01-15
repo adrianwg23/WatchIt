@@ -28,8 +28,6 @@ class MovieListLogic(dispatcher: DispatcherProvider,
         movie.isFavourite = !movie.isFavourite
     }
 
-    fun test() = "hello"
-
     override fun onListRefresh() {
     }
 
