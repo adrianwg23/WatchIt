@@ -5,6 +5,13 @@ This project was built to expirement/explore Clean Architecture principles in an
 Watch It is a client side Android Application that pulls current popular movies and tv shows from **The Movie Database**'s API.
 Users can choose to favourite movies and/or tv shows which will save the movie locally on the phone.
 
+## Screenshots
+**MovieListFragment (left)** and **FavouritesFragment(right)** displaying favourite Tv Shows
+<p float="left">
+  <img src="Screenshots/Movie%20List%20Fragment.png" width="200" />
+  <img src="Screenshots/Favourite%20Fragment.png" width="200" /> 
+</p>
+
 ## Dependencies Overview
 1. **Kotlin Coroutines** for concurrency and for handling asynchronous events
 2. **Dagger 2** for dependency injection
@@ -104,10 +111,3 @@ Clean Architecure, so I am more than satisfied with the fact that I created an a
 
 Unit Testing. I would 1000% add Unit Tests in the future, and would even maybe approach a TDD approach where I test before I implement.
 This is something I definitely plan on adding to the application in the near future.
-
-## Screenshots
-**MovieListFragment (left)** and **FavouritesFragment(right)** displaying favourite Tv Shows
-<p float="left">
-  <img src="Screenshots/Movie%20List%20Fragment.png" width="300" />
-  <img src="Screenshots/Favourites%20Fragment.png" width="300" /> 
-</p>
