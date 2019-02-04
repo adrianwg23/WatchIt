@@ -5,9 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.os.bundleOf
+import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.ActivityNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
@@ -88,7 +93,18 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
         activity!!.setTitle(R.string.title_tv_shows)
     }
 
-    override fun startContentDetailsActivity() {
-    }
+    override fun startContentDetailsActivity(content: Content, view: View) {
+        val bundle = bundleOf("content" to content)
 
+        val transitionImage: View? = view.findViewById(R.id.contentPosterThumbnail)
+        var options: ActivityOptionsCompat? = null
+        transitionImage?.let {
+            options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    activity!!,
+                    Pair.create(it, getString(R.string.poster_transition))
+            )
+        }
+        val extras = ActivityNavigatorExtras(options)
+        findNavController().navigate(R.id.action_navigation_tv_shows_to_contentDetails, bundle, null, extras)
+    }
 }

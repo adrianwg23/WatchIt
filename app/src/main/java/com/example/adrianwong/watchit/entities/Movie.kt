@@ -1,5 +1,7 @@
 package com.example.adrianwong.watchit.entities
 
+import java.io.Serializable
+
 data class Movie(
     override var id: Int,
     override var title: String,
@@ -12,4 +14,4 @@ data class Movie(
     override var releaseDate: String? = null,
     override var isFavourite: Boolean = false
 ) : Content(id, title, voteAverage, posterUrl, posterPath, backdropUrl,
-    backDropPath, overView, releaseDate, isFavourite, ContentType.MOVIE)
+    backDropPath, overView, releaseDate, isFavourite, ContentType.MOVIE), Serializable

@@ -1,5 +1,7 @@
 package com.example.adrianwong.watchit.dagger
 
+import com.example.adrianwong.watchit.dagger.contentdetails.ContentDetailsModule
+import com.example.adrianwong.watchit.dagger.contentdetails.ContentDetailsSubComponent
 import com.example.adrianwong.watchit.dagger.favourites.FavouritesModule
 import com.example.adrianwong.watchit.dagger.favourites.FavouritesSubComponent
 import com.example.adrianwong.watchit.dagger.modules.AppModule
@@ -14,6 +16,7 @@ import dagger.Component
 @MovieApplicationScope
 @Component(modules = [AppModule::class, NetworkModule::class, DataModule::class])
 interface MainComponent {
+    fun plus(contentDetailsModule: ContentDetailsModule): ContentDetailsSubComponent
     fun plus(moviesModule: MoviesModule): MoviesSubComponent
     fun plus(tvShowsModule: TvShowsModule): TvShowsSubComponent
     fun plus(favouritesModule: FavouritesModule): FavouritesSubComponent

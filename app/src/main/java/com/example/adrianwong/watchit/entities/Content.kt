@@ -1,5 +1,7 @@
 package com.example.adrianwong.watchit.entities
 
+import java.io.Serializable
+
 abstract class Content(
     open var id: Int = -1,
     open var title: String,
@@ -12,7 +14,7 @@ abstract class Content(
     open var releaseDate: String? = null,
     open var isFavourite: Boolean = false,
     open val contentType: ContentType
-)
+) : Serializable
 
 enum class ContentType(val num: Int) {
     MOVIE(0),

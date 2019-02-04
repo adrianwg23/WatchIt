@@ -9,15 +9,32 @@
         android:id="@+id/navigation_movies"
         android:name="com.example.adrianwong.watchit.contentlist.movielist.MovieListFragment"
         android:label="@string/title_movies"
-        tools:layout="@layout/fragment_movie_list" />
+        tools:layout="@layout/fragment_movie_list">
+        <action
+            android:id="@+id/action_navigation_movies_to_contentDetails"
+            app:destination="@id/contentDetails" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_favourites"
         android:name="com.example.adrianwong.watchit.favourites.FavouritesFragment"
         android:label="@string/title_favourites"
-        tools:layout="@layout/fragment_favourites" />
+        tools:layout="@layout/fragment_favourites">
+        <action
+            android:id="@+id/action_navigation_favourites_to_contentDetails"
+            app:destination="@id/contentDetails" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_tv_shows"
         android:name="com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListFragment"
         android:label="@string/title_tv_shows"
-        tools:layout="@layout/fragment_tv_show_list" />
+        tools:layout="@layout/fragment_tv_show_list">
+        <action
+            android:id="@+id/action_navigation_tv_shows_to_contentDetails"
+            app:destination="@id/contentDetails" />
+    </fragment>
+    <activity
+        android:id="@+id/contentDetails"
+        android:name="com.example.adrianwong.watchit.contentdetails.ContentDetailsActivity"
+        android:label="ContentDetails"
+        tools:layout="@layout/activity_content_details"/>
 </navigation>

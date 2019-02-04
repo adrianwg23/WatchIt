@@ -1,9 +1,12 @@
 package com.example.adrianwong.watchit
 
 import android.app.Application
+import com.example.adrianwong.watchit.contentdetails.IContentDetailsContract
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.dagger.DaggerMainComponent
 import com.example.adrianwong.watchit.dagger.MainComponent
+import com.example.adrianwong.watchit.dagger.contentdetails.ContentDetailsModule
+import com.example.adrianwong.watchit.dagger.contentdetails.ContentDetailsSubComponent
 import com.example.adrianwong.watchit.dagger.favourites.FavouritesModule
 import com.example.adrianwong.watchit.dagger.favourites.FavouritesSubComponent
 import com.example.adrianwong.watchit.dagger.modules.AppModule
@@ -18,6 +21,7 @@ import com.example.adrianwong.watchit.favourites.IFavouritesContract
 class MovieApplication : Application() {
 
     private lateinit var mainComponent: MainComponent
+    private var contentDetailsSubComponent: ContentDetailsSubComponent? = null
     private var favouritesSubComponent: FavouritesSubComponent? = null
     private var moviesSubComponent: MoviesSubComponent? = null
     private var tvShowsSubComponent: TvShowsSubComponent? = null
@@ -30,6 +34,16 @@ class MovieApplication : Application() {
             .networkModule(NetworkModule(getString(R.string.base_url)))
             .dataModule(DataModule())
             .build()
+    }
+
+    fun createContentDetailsComponent(view: IContentDetailsContract.View,
+                                      viewModel: IContentDetailsContract.ViewModel): ContentDetailsSubComponent {
+        contentDetailsSubComponent = mainComponent.plus(ContentDetailsModule(view, viewModel))
+        return contentDetailsSubComponent!!
+    }
+
+    fun releaseContentDetailsComponent() {
+        contentDetailsSubComponent = null
     }
 
     fun createFavouritesComponent(view: IFavouritesContract.View,

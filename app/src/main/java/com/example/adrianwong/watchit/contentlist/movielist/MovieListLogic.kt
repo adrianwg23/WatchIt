@@ -1,5 +1,6 @@
 package com.example.adrianwong.watchit.contentlist.movielist
 
+import android.view.View
 import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.domain.common.Mapper
 import com.example.adrianwong.domain.entities.MovieEntity
@@ -23,7 +24,8 @@ class MovieListLogic(dispatcher: DispatcherProvider,
                      private val saveFavouriteMovie: SaveFavouriteMovie,
                      private val removeFavouriteMovie: RemoveFavouriteMovie) : ContentListLogic<Movie>(dispatcher, view, viewModel) {
 
-    override fun onListItemClick(content: Movie) {
+    override fun onListItemClick(content: Movie, view: View) {
+        mView.startContentDetailsActivity(content, view)
     }
 
     override fun onItemFavourited(position: Int) {

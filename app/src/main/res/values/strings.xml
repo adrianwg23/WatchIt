@@ -3,8 +3,12 @@
     <string name="title_movies">Movies</string>
     <string name="title_tv_shows">TV Shows</string>
     <string name="title_favourites">Favourites</string>
+    <string name="release_date">Released: %s</string>
+    <string name="not_available">N/A</string>
 
 
     <!-- network -->
     <string name="base_url">https://api.themoviedb.org/3/</string>
+    <string name="poster_transition">poster_transition</string>
+    <string name="overview">Overview</string>
 </resources>

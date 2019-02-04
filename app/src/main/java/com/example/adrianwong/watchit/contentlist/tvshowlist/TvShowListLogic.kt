@@ -1,5 +1,6 @@
 package com.example.adrianwong.watchit.contentlist.tvshowlist
 
+import android.view.View
 import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.domain.common.Mapper
 import com.example.adrianwong.domain.entities.TvShowEntity
@@ -23,7 +24,8 @@ class TvShowListLogic(dispatcher: DispatcherProvider,
                       private val saveFavouriteTvShow: SaveFavouriteTvShow,
                       private val removeFavouriteTvShow: RemoveFavouriteTvShow) : ContentListLogic<TvShow>(dispatcher, view, viewModel) {
 
-    override fun onListItemClick(content: TvShow) {
+    override fun onListItemClick(content: TvShow, view: View) {
+        mView.startContentDetailsActivity(content, view)
     }
 
     override fun onItemFavourited(position: Int) {

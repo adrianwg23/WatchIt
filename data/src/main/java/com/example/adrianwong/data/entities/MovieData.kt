@@ -26,7 +26,7 @@ data class MovieData(
     @SerializedName("overview")
     var overView: String? = null,
 
-    @SerializedName("release_data")
+    @SerializedName("release_date")
     var releaseDate: String? = null
 )
 
