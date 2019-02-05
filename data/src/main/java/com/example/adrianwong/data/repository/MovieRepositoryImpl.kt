@@ -20,10 +20,6 @@ class MovieRepositoryImpl(private val movieApiService: MovieApiService,
         }
     }
 
-    override suspend fun getMovieDetails(): MovieEntity? {
-        return null
-    }
-
     override suspend fun searchMovie(): List<MovieEntity>? {
         return null
     }
@@ -41,4 +37,7 @@ class MovieRepositoryImpl(private val movieApiService: MovieApiService,
         database.favouritesDao().removeMovie(entityToDataMapper.mapFrom(movieEntity))
     }
 
+    override suspend fun checkFavouriteMovie(movieId: Int): Boolean {
+        return database.favouritesDao().getMovie(movieId) != null
+    }
 }

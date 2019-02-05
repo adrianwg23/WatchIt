@@ -5,12 +5,14 @@ import android.transition.Slide
 import android.transition.TransitionManager
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.transition.addListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
 import com.example.adrianwong.watchit.common.load
+import com.example.adrianwong.watchit.common.makeToast
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.entities.Content
 import kotlinx.android.synthetic.main.activity_content_details.*
@@ -46,16 +48,19 @@ class ContentDetailsActivity : AppCompatActivity(), IContentDetailsContract.View
             state?.let { handleFavouriteStateChange(it) }
         })
 
-        detailsFavoriteFab.setOnClickListener { contentDetailsLogic.event(ContentDetailsEvent.OnItemFavourited) }
+        detailsFavoriteFab.setOnClickListener { contentDetailsLogic.event(ContentDetailsEvent.OnItemFavourited(content)) }
+
+        if (savedInstanceState != null) contentDetailsLogic.event(ContentDetailsEvent.OnBind)
     }
 
     override fun onStart() {
-        contentDetailsLogic.event(ContentDetailsEvent.OnStart)
+        contentDetailsLogic.event(ContentDetailsEvent.OnStart(content))
         super.onStart()
     }
 
     override fun onDestroy() {
         contentDetailsLogic.event(ContentDetailsEvent.OnDestroy)
+        (application as MovieApplication).releaseContentDetailsComponent()
         super.onDestroy()
     }
 
@@ -78,7 +83,16 @@ class ContentDetailsActivity : AppCompatActivity(), IContentDetailsContract.View
         detailsBackdrop.load(content.backDropPath ?: "", this)
     }
 
-    override fun handleFavouriteStateChange(favourite: Boolean) {
+    override fun showError(error: String) {
+        this.makeToast(error)
+    }
 
+    override fun handleFavouriteStateChange(favourite: Boolean) {
+        detailsFavoriteFab.setImageDrawable(
+            if (favourite)
+                ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24px)
+            else
+                ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_border_24px)
+        )
     }
 }

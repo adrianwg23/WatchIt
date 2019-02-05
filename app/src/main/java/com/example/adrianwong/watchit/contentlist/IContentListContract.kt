@@ -12,7 +12,9 @@ interface IContentListContract {
     interface View {
         fun setAdapter()
         fun showLoadingView()
+        fun hideLoadingView()
         fun setToolBarTitle()
+        fun showError(error: String)
         fun startContentDetailsActivity(content: Content, view: android.view.View)
     }
 
@@ -29,11 +31,10 @@ interface IContentListContract {
 }
 
 sealed class ContentListEvent {
-    data class OnListItemClick<out T>(val content: T, val view: View) : ContentListEvent()
+    data class OnListItemClick(val content: Content, val view: View) : ContentListEvent()
     object OnListRefresh : ContentListEvent()
     object OnLoadMoreData : ContentListEvent()
     data class OnFavouriteContentChanged(val contentType: ContentType): ContentListEvent()
-    data class OnItemFavourited(val position: Int) : ContentListEvent()
     object OnStart : ContentListEvent()
     object OnBind : ContentListEvent()
     object OnDestroy : ContentListEvent()

@@ -8,6 +8,6 @@ interface IMovieRepository {
     suspend fun getFavouriteMovies(): List<MovieEntity>
     suspend fun saveMovie(movieEntity: MovieEntity)
     suspend fun removeMovie(movieEntity: MovieEntity)
-    suspend fun getMovieDetails(): MovieEntity?
+    suspend fun checkFavouriteMovie(movieId: Int): Boolean
     suspend fun searchMovie(): List<MovieEntity>?
 }

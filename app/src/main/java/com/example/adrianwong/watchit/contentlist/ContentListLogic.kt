@@ -3,6 +3,7 @@ package com.example.adrianwong.watchit.contentlist
 import android.view.View
 import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.watchit.common.BaseLogic
+import com.example.adrianwong.watchit.entities.Content
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
@@ -21,8 +22,7 @@ abstract class ContentListLogic<T>(dispatcher: DispatcherProvider,
 
     override fun event(event: ContentListEvent) {
         when(event) {
-            is ContentListEvent.OnListItemClick<*> -> onListItemClick(event.content as T, event.view)
-            is ContentListEvent.OnItemFavourited -> onItemFavourited(event.position)
+            is ContentListEvent.OnListItemClick -> onListItemClick(event.content, event.view)
             is ContentListEvent.OnListRefresh -> onListRefresh()
             is ContentListEvent.OnLoadMoreData -> onLoadMoreData()
             is ContentListEvent.OnStart -> onStart()
@@ -31,9 +31,7 @@ abstract class ContentListLogic<T>(dispatcher: DispatcherProvider,
         }
     }
 
-    protected abstract fun onListItemClick(content: T, view: View)
-
-    protected abstract fun onItemFavourited(position: Int)
+    protected abstract fun onListItemClick(content: Content, view: View)
 
     protected abstract fun onListRefresh()
 

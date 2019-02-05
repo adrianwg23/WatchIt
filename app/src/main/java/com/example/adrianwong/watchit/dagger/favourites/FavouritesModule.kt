@@ -10,15 +10,12 @@ import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.favourites.FavouritesFragment
 import com.example.adrianwong.watchit.favourites.FavouritesLogic
 import com.example.adrianwong.watchit.favourites.IFavouritesContract
-import com.example.adrianwong.watchit.mappers.MovieEntityToMovieMapper
-import com.example.adrianwong.watchit.mappers.TvShowEntityToTvShowMapper
 import dagger.Module
 import dagger.Provides
 
 @Module
 class FavouritesModule(private val view: IFavouritesContract.View,
-                       private val favouritesVM: IFavouritesContract.ViewModel,
-                       private val removedFavouritesVM: IFavouritesContract.ViewModel) {
+                       private val favouritesVM: IFavouritesContract.ViewModel) {
 
     @Provides
     @FavouritesScope
@@ -35,8 +32,7 @@ class FavouritesModule(private val view: IFavouritesContract.View,
     @Provides
     @FavouritesScope
     fun providesFavouritesLogic(getFavouriteMovies: GetFavouriteMovies, getFavouriteTvShows: GetFavouriteTvShows): IContentListContract.Logic {
-        return FavouritesLogic(DispatcherProvider, MovieEntityToMovieMapper, TvShowEntityToTvShowMapper,
-            getFavouriteMovies, getFavouriteTvShows, view, favouritesVM, removedFavouritesVM)
+        return FavouritesLogic(DispatcherProvider, getFavouriteMovies, getFavouriteTvShows, view, favouritesVM)
     }
 
     @Provides

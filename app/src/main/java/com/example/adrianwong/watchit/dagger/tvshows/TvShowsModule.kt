@@ -29,27 +29,13 @@ class TvShowsModule(private val view: IContentListContract.View, private val vie
 
     @Provides
     @TvShowsScope
-    fun providesSaveFavouriteTvShow(tvShowRepository: ITvShowRepository): SaveFavouriteTvShow {
-        return SaveFavouriteTvShow(tvShowRepository)
-    }
-
-    @Provides
-    @TvShowsScope
-    fun providesRemoveFavouriteTvShow(tvShowRepository: ITvShowRepository): RemoveFavouriteTvShow {
-        return RemoveFavouriteTvShow(tvShowRepository)
-    }
-
-    @Provides
-    @TvShowsScope
     fun providesTvShowListAdapter(tvShowListLogic: IContentListContract.Logic): ContentListAdapter {
         return ContentListAdapter(tvShowListLogic, view as TvShowListFragment)
     }
 
     @Provides
     @TvShowsScope
-    fun providesTvShowListLogic(getPopularTvShows: GetPopularTvShows, saveFavouriteTvShow: SaveFavouriteTvShow,
-                                removeFavouriteTvShow: RemoveFavouriteTvShow): IContentListContract.Logic {
-        return TvShowListLogic(DispatcherProvider, view, viewModel, TvShowEntityToTvShowMapper, TvShowToTvShowEntityMapper,
-            getPopularTvShows, saveFavouriteTvShow, removeFavouriteTvShow)
+    fun providesTvShowListLogic(getPopularTvShows: GetPopularTvShows): IContentListContract.Logic {
+        return TvShowListLogic(DispatcherProvider, view, viewModel, getPopularTvShows)
     }
 }

@@ -20,10 +20,6 @@ class TvShowRepositoryImpl(private val movieApiService: MovieApiService,
         }
     }
 
-    override suspend fun getTvShowDetails(): TvShowEntity? {
-        return null
-    }
-
     override suspend fun searchTvShow(): List<TvShowEntity>? {
         return null
     }
@@ -41,4 +37,7 @@ class TvShowRepositoryImpl(private val movieApiService: MovieApiService,
         database.favouritesDao().removeTvShow(entityToDataMapper.mapFrom(tvShowEntity))
     }
 
+    override suspend fun checkFavouriteTvShow(tvShowId: Int): Boolean {
+        return database.favouritesDao().getTvShow(tvShowId) != null
+    }
 }

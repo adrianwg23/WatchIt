@@ -29,7 +29,6 @@ class ContentListAdapter(private val logic: IContentListContract.Logic, private 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
         val content = getItem(position)
         holder.bind(content, context,
-                favouritesClickListener = { logic.event(ContentListEvent.OnItemFavourited(it)) },
                 itemClickListener = { resultContent, view ->
                     logic.event(ContentListEvent.OnListItemClick(resultContent, view))
                 })
@@ -38,29 +37,12 @@ class ContentListAdapter(private val logic: IContentListContract.Logic, private 
 
     class ContentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(content: Content, context: Fragment, favouritesClickListener: (Int) -> Unit,
-                 itemClickListener: (Content, View) -> Unit) {
+        fun bind(content: Content, context: Fragment, itemClickListener: (Content, View) -> Unit) {
             itemView.contentTitle.text = content.title
             itemView.contentOverview.text = content.overView
             itemView.contentVoteAverage.text = content.voteAverage.toString()
-            setFavourite(context, content)
-
             itemView.contentPosterThumbnail.load(content.posterPath ?: "", context)
-
-            itemView.contentFavourite.setOnClickListener {
-                favouritesClickListener(adapterPosition)
-                setFavourite(context, content)
-            }
             itemView.setOnClickListener { itemClickListener(content, it) }
-        }
-
-
-        private fun setFavourite(context: Fragment, content: Content) {
-            if (!content.isFavourite) {
-                itemView.contentFavourite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_baseline_favorite_border_24px))
-            } else {
-                itemView.contentFavourite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_baseline_favorite_24px))
-            }
         }
     }
 }

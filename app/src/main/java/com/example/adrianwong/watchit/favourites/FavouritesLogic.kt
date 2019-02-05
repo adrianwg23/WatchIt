@@ -1,31 +1,29 @@
 package com.example.adrianwong.watchit.favourites
 
+import android.view.View
 import com.example.adrianwong.domain.DispatcherProvider
-import com.example.adrianwong.domain.common.Mapper
-import com.example.adrianwong.domain.entities.MovieEntity
-import com.example.adrianwong.domain.entities.TvShowEntity
 import com.example.adrianwong.domain.usecases.GetFavouriteMovies
 import com.example.adrianwong.domain.usecases.GetFavouriteTvShows
 import com.example.adrianwong.watchit.common.BaseLogic
+import com.example.adrianwong.watchit.common.toMovie
+import com.example.adrianwong.watchit.common.toTvShow
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.entities.Content
 import com.example.adrianwong.watchit.entities.ContentType
 import com.example.adrianwong.watchit.entities.Movie
-import com.example.adrianwong.watchit.entities.TvShow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 class FavouritesLogic(dispatcher: DispatcherProvider,
-                      private val entityToMovieMapper: Mapper<MovieEntity, Movie>,
-                      private val entityToTvShowMapper: Mapper<TvShowEntity, TvShow>,
                       private val getFavouriteMovies: GetFavouriteMovies,
                       private val getFavouriteTvShows: GetFavouriteTvShows,
-                      private val view: IFavouritesContract.View,
-                      private val favouritesViewModel: IFavouritesContract.ViewModel,
-                      private val removedFavouritesViewModel: IFavouritesContract.ViewModel):
+                      private val mView: IFavouritesContract.View,
+                      private val mViewModel: IFavouritesContract.ViewModel):
     BaseLogic(dispatcher), IContentListContract.Logic, CoroutineScope {
 
     init {
@@ -40,21 +38,26 @@ class FavouritesLogic(dispatcher: DispatcherProvider,
 
     override fun event(event: ContentListEvent) {
         when(event) {
+            is ContentListEvent.OnListItemClick -> onListItemClick(event.content, event.view)
             is ContentListEvent.OnStart -> onStart()
             is ContentListEvent.OnBind -> onBind()
-            is ContentListEvent.OnItemFavourited -> onItemFavourite(event.position)
             is ContentListEvent.OnFavouriteContentChanged -> onFavouriteContentChanged(event.contentType)
             is ContentListEvent.OnDestroy -> onDestroy()
         }
     }
 
+    private fun onListItemClick(content: Content, view: View) {
+        mView.startContentDetailsActivity(content, view)
+    }
+
     private fun onStart() {
         jobTracker = Job()
         getFavourites(contentType)
+        mView.showLoadingView()
     }
 
     private fun onBind() {
-        view.run {
+        mView.run {
             setAdapter()
             setToolBarTitle()
         }
@@ -62,10 +65,6 @@ class FavouritesLogic(dispatcher: DispatcherProvider,
 
     private fun onDestroy() {
         jobTracker.cancel()
-    }
-
-    private fun onItemFavourite(position: Int) {
-
     }
 
     private fun onFavouriteContentChanged(contentType: ContentType) {
@@ -83,22 +82,30 @@ class FavouritesLogic(dispatcher: DispatcherProvider,
     }
 
     private fun getFavouriteMovies() = launch {
-        val favouriteMovies = withContext(dispatcher.provideIOContext()) {
-            getFavouriteMovies.execute().map {
-                entityToMovieMapper.mapFrom(it)
-            }.map { it.copy(isFavourite = true) }
-        }
+        try {
+            val favouriteMovies = withContext(dispatcher.provideIOContext()) {
+                getFavouriteMovies.execute().map { it.toMovie() }
+            }
 
-        favouritesViewModel.movies.value = favouriteMovies.toMutableList()
+            mViewModel.movies.value = favouriteMovies.toMutableList()
+        } catch (e: Exception) {
+            mView.showError(e.localizedMessage)
+        } finally {
+            mView.hideLoadingView()
+        }
     }
 
     private fun getFavouriteTvShows() = launch {
-        val favouriteTvShows = withContext(dispatcher.provideIOContext()) {
-            getFavouriteTvShows.execute().map {
-                entityToTvShowMapper.mapFrom(it)
-            }.map { it.copy(isFavourite = true) }
-        }
+        try {
+            val favouriteTvShows = withContext(dispatcher.provideIOContext()) {
+                getFavouriteTvShows.execute().map { it.toTvShow() }
+            }
 
-        favouritesViewModel.tvShows.value = favouriteTvShows.toMutableList()
+            mViewModel.tvShows.value = favouriteTvShows.toMutableList()
+        } catch (e: Exception) {
+            mView.showError(e.localizedMessage)
+        } finally {
+            mView.hideLoadingView()
+        }
     }
 }

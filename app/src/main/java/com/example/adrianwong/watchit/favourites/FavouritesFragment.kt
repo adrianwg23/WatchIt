@@ -2,12 +2,17 @@ package com.example.adrianwong.watchit.favourites
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.os.bundleOf
+import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.ActivityNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
-import com.example.adrianwong.watchit.R.id.tvShows
+import com.example.adrianwong.watchit.common.makeToast
 import com.example.adrianwong.watchit.contentlist.ContentListAdapter
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.IContentListContract
@@ -22,10 +27,9 @@ import javax.inject.Inject
  */
 class FavouritesFragment : Fragment(), IFavouritesContract.View {
 
-    @Inject lateinit var logic: IContentListContract.Logic
+    @Inject lateinit var favouritesLogic: IContentListContract.Logic
     @Inject lateinit var contentAdapter: ContentListAdapter
     private lateinit var favouritesViewModel: IFavouritesContract.ViewModel
-    private lateinit var removedFavouritesViewModel: IFavouritesContract.ViewModel
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.content, menu)
@@ -35,11 +39,11 @@ class FavouritesFragment : Fragment(), IFavouritesContract.View {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.movies -> {
-                logic.event(ContentListEvent.OnFavouriteContentChanged(ContentType.MOVIE))
+                favouritesLogic.event(ContentListEvent.OnFavouriteContentChanged(ContentType.MOVIE))
                 true
             }
             R.id.tvShows -> {
-                logic.event(ContentListEvent.OnFavouriteContentChanged(ContentType.TV_SHOW))
+                favouritesLogic.event(ContentListEvent.OnFavouriteContentChanged(ContentType.TV_SHOW))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -48,9 +52,8 @@ class FavouritesFragment : Fragment(), IFavouritesContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         favouritesViewModel = ViewModelProviders.of(activity!!).get(FavouritesViewModel::class.java)
-        removedFavouritesViewModel = ViewModelProviders.of(activity!!).get(RemovedFavouritesViewModel::class.java)
         (activity?.application as MovieApplication)
-            .createFavouritesComponent(this, favouritesViewModel, removedFavouritesViewModel)
+            .createFavouritesComponent(this, favouritesViewModel)
             .inject(this)
 
         setHasOptionsMenu(true)
@@ -64,7 +67,7 @@ class FavouritesFragment : Fragment(), IFavouritesContract.View {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        logic.event(ContentListEvent.OnBind)
+        favouritesLogic.event(ContentListEvent.OnBind)
 
         favouritesViewModel.movies.observe(this, Observer { movies ->
             movies?.let {
@@ -82,11 +85,12 @@ class FavouritesFragment : Fragment(), IFavouritesContract.View {
     }
 
     override fun onStart() {
-        logic.event(ContentListEvent.OnStart)
+        favouritesLogic.event(ContentListEvent.OnStart)
         super.onStart()
     }
 
     override fun onDestroyView() {
+        favouritesLogic.event(ContentListEvent.OnDestroy)
         (activity?.application as MovieApplication).releaseFavouritesComponent()
         super.onDestroyView()
     }
@@ -96,9 +100,33 @@ class FavouritesFragment : Fragment(), IFavouritesContract.View {
     }
 
     override fun showLoadingView() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideLoadingView() {
+        progressBar.visibility = View.GONE
+    }
+
+    override fun showError(error: String) {
+        activity?.makeToast(error)
     }
 
     override fun setToolBarTitle() {
         activity!!.setTitle(R.string.title_favourites)
+    }
+
+    override fun startContentDetailsActivity(content: Content, view: View) {
+        val bundle = bundleOf("content" to content)
+
+        val transitionImage: View? = view.findViewById(R.id.contentPosterThumbnail)
+        var options: ActivityOptionsCompat? = null
+        transitionImage?.let {
+            options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity!!,
+                Pair.create(it, getString(R.string.poster_transition))
+            )
+        }
+        val extras = ActivityNavigatorExtras(options)
+        findNavController().navigate(R.id.action_navigation_favourites_to_contentDetails, bundle, null, extras)
     }
 }

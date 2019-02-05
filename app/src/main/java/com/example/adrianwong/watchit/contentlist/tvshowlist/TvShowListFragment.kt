@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.adrianwong.watchit.MovieApplication
 import com.example.adrianwong.watchit.R
+import com.example.adrianwong.watchit.common.makeToast
 import com.example.adrianwong.watchit.contentlist.ContentListAdapter
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.ContentListViewModel
@@ -87,6 +88,15 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
     }
 
     override fun showLoadingView() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideLoadingView() {
+        progressBar.visibility = View.GONE
+    }
+
+    override fun showError(error: String) {
+        activity?.makeToast(error)
     }
 
     override fun setToolBarTitle() {

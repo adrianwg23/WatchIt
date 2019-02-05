@@ -90,13 +90,6 @@
                 android:fontFamily="@font/roboto_light"
                 android:textColor="@android:color/black"
                 tools:text="6.9" />
-
-            <ImageView
-                android:id="@+id/contentFavourite"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="end"
-                android:src="@drawable/ic_baseline_favorite_border_24px" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

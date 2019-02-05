@@ -47,9 +47,8 @@ class MovieApplication : Application() {
     }
 
     fun createFavouritesComponent(view: IFavouritesContract.View,
-                                  favouritesVM: IFavouritesContract.ViewModel,
-                                  removedFavouritesVM: IFavouritesContract.ViewModel): FavouritesSubComponent {
-        favouritesSubComponent = mainComponent.plus(FavouritesModule(view, favouritesVM, removedFavouritesVM))
+                                  favouritesVM: IFavouritesContract.ViewModel): FavouritesSubComponent {
+        favouritesSubComponent = mainComponent.plus(FavouritesModule(view, favouritesVM))
         return favouritesSubComponent!!
     }
 
