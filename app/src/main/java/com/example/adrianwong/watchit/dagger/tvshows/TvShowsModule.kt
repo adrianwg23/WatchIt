@@ -2,13 +2,12 @@ package com.example.adrianwong.watchit.dagger.tvshows
 
 import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.domain.repository.ITvShowRepository
-import com.example.adrianwong.domain.usecases.*
+import com.example.adrianwong.domain.usecases.GetPopularTvShows
+import com.example.adrianwong.domain.usecases.SearchTvShow
 import com.example.adrianwong.watchit.contentlist.ContentListAdapter
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListFragment
 import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListLogic
-import com.example.adrianwong.watchit.mappers.TvShowEntityToTvShowMapper
-import com.example.adrianwong.watchit.mappers.TvShowToTvShowEntityMapper
 import dagger.Module
 import dagger.Provides
 
