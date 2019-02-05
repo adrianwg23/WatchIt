@@ -45,6 +45,7 @@ class MovieListLogic(dispatcher: DispatcherProvider,
             }
 
             mViewModel.movies.value?.run {
+                // this block is run when we want to ADD more movies to the list (ie. we fetch page 2)
                 addAll(movies)
                 mViewModel.movies.notifyObserver()
             } ?: run {

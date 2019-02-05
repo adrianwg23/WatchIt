@@ -34,6 +34,9 @@ class FavouritesLogic(dispatcher: DispatcherProvider,
         mView.showLoadingView()
     }
 
+    /**
+     * Handles function when user switches from displaying favourite movies to tvshows and vice versa
+     */
     private fun onFavouriteContentChanged(contentType: ContentType) {
         if (this.contentType != contentType) {
             getFavourites(contentType)

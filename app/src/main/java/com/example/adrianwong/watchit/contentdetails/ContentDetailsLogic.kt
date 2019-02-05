@@ -16,6 +16,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * Contains logic for ContentDetailsActivity
+ */
 class ContentDetailsLogic(dispatcher: DispatcherProvider,
                           private val mView: IContentDetailsContract.View,
                           private val mViewModel: IContentDetailsContract.ViewModel,
@@ -40,6 +43,10 @@ class ContentDetailsLogic(dispatcher: DispatcherProvider,
         }
     }
 
+    /**
+     * Because we can't return booleans from coroutine 'launch' blocks, we have to launch each coroutine
+     * individually when checking if it is favourite
+     */
     private fun onItemFavourited(content: Content) {
         when(content) {
             is Movie -> {

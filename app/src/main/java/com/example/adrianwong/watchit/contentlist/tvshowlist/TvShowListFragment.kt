@@ -104,7 +104,7 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
     }
 
     override fun startContentDetailsActivity(content: Content, view: View) {
-        val bundle = bundleOf("content" to content)
+        val bundle = bundleOf(getString(R.string.content_extra) to content)
 
         val transitionImage: View? = view.findViewById(R.id.contentPosterThumbnail)
         var options: ActivityOptionsCompat? = null

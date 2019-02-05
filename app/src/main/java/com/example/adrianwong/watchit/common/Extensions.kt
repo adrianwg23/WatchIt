@@ -34,6 +34,7 @@ fun ImageView.load(url: String, context: Activity) {
 
 fun Activity.makeToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
+// mapping extensions
 fun Movie.toMovieEntity() = MovieToMovieEntityMapper.mapFrom(this)
 
 fun TvShow.toTvShowEntity() = TvShowToTvShowEntityMapper.mapFrom(this)

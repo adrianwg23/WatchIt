@@ -51,7 +51,7 @@ class FavouritesFragment : Fragment(), IContentListContract.View {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        favouritesViewModel = ViewModelProviders.of(activity!!).get(FavouritesViewModel::class.java)
+        favouritesViewModel = ViewModelProviders.of(this).get(FavouritesViewModel::class.java)
         (activity?.application as MovieApplication)
             .createFavouritesComponent(this, favouritesViewModel)
             .inject(this)
@@ -116,7 +116,7 @@ class FavouritesFragment : Fragment(), IContentListContract.View {
     }
 
     override fun startContentDetailsActivity(content: Content, view: View) {
-        val bundle = bundleOf("content" to content)
+        val bundle = bundleOf(getString(R.string.content_extra) to content)
 
         val transitionImage: View? = view.findViewById(R.id.contentPosterThumbnail)
         var options: ActivityOptionsCompat? = null

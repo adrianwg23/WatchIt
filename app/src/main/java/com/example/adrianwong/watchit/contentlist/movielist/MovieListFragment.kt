@@ -59,6 +59,10 @@ class MovieListFragment : Fragment(), IContentListContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         movieListLogic.event(ContentListEvent.OnBind)
+
+        /**
+         * observe list of movies from ViewModel
+         */
         contentListViewModel.movies.observe(this, Observer { movies ->
             movies?.let {
                 contentListAdapter.submitList(it as MutableList<Content>)
@@ -106,7 +110,7 @@ class MovieListFragment : Fragment(), IContentListContract.View {
     }
 
     override fun startContentDetailsActivity(content: Content, view: View) {
-        val bundle = bundleOf("content" to content)
+        val bundle = bundleOf(getString(R.string.content_extra) to content)
 
         val transitionImage: View? = view.findViewById(R.id.contentPosterThumbnail)
         var options: ActivityOptionsCompat? = null
