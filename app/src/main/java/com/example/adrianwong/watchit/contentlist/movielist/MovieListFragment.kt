@@ -102,7 +102,7 @@ class MovieListFragment : Fragment(), IContentListContract.View {
 
 
     override fun setToolBarTitle() {
-        activity!!.setTitle(R.string.title_movies)
+        activity?.setTitle(R.string.title_movies)
     }
 
     override fun startContentDetailsActivity(content: Content, view: View) {

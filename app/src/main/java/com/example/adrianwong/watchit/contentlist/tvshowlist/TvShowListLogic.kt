@@ -1,14 +1,12 @@
 package com.example.adrianwong.watchit.contentlist.tvshowlist
 
-import android.view.View
 import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.domain.usecases.GetPopularTvShows
 import com.example.adrianwong.watchit.common.notifyObserver
 import com.example.adrianwong.watchit.common.toTvShow
+import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.ContentListLogic
 import com.example.adrianwong.watchit.contentlist.IContentListContract
-import com.example.adrianwong.watchit.entities.Content
-import com.example.adrianwong.watchit.entities.TvShow
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,17 +14,13 @@ import kotlinx.coroutines.withContext
 class TvShowListLogic(dispatcher: DispatcherProvider,
                       view: IContentListContract.View,
                       viewModel: IContentListContract.ViewModel,
-                      private val getPopularTvShows: GetPopularTvShows) : ContentListLogic<TvShow>(dispatcher, view, viewModel) {
+                      private val getPopularTvShows: GetPopularTvShows) : ContentListLogic(dispatcher, view, viewModel) {
 
-    override fun onListItemClick(content: Content, view: View) {
-        mView.startContentDetailsActivity(content, view)
-    }
-
-    override fun onListRefresh() {
-    }
-
-    override fun onLoadMoreData() {
-        updateTvShowList(mViewModel.tvShowsPageNumber++)
+    override fun event(event: ContentListEvent) {
+        when(event) {
+            is ContentListEvent.OnLoadMoreData -> onLoadMoreData()
+            else -> super.event(event)
+        }
     }
 
     override fun onStart() {
@@ -40,11 +34,8 @@ class TvShowListLogic(dispatcher: DispatcherProvider,
         }
     }
 
-    override fun onBind() {
-        mView.run {
-            setToolBarTitle()
-            setAdapter()
-        }
+    private fun onLoadMoreData() {
+        updateTvShowList(mViewModel.tvShowsPageNumber++)
     }
 
     private fun updateTvShowList(page: Int) = launch {

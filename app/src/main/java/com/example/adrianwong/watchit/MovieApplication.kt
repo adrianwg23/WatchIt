@@ -16,7 +16,6 @@ import com.example.adrianwong.watchit.dagger.movies.MoviesModule
 import com.example.adrianwong.watchit.dagger.movies.MoviesSubComponent
 import com.example.adrianwong.watchit.dagger.tvshows.TvShowsModule
 import com.example.adrianwong.watchit.dagger.tvshows.TvShowsSubComponent
-import com.example.adrianwong.watchit.favourites.IFavouritesContract
 
 class MovieApplication : Application() {
 
@@ -46,8 +45,8 @@ class MovieApplication : Application() {
         contentDetailsSubComponent = null
     }
 
-    fun createFavouritesComponent(view: IFavouritesContract.View,
-                                  favouritesVM: IFavouritesContract.ViewModel): FavouritesSubComponent {
+    fun createFavouritesComponent(view: IContentListContract.View,
+                                  favouritesVM: IContentListContract.ViewModel): FavouritesSubComponent {
         favouritesSubComponent = mainComponent.plus(FavouritesModule(view, favouritesVM))
         return favouritesSubComponent!!
     }

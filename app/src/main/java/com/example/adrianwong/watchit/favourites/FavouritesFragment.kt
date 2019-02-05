@@ -25,11 +25,11 @@ import javax.inject.Inject
  * A simple [Fragment] subclass.
  *
  */
-class FavouritesFragment : Fragment(), IFavouritesContract.View {
+class FavouritesFragment : Fragment(), IContentListContract.View {
 
     @Inject lateinit var favouritesLogic: IContentListContract.Logic
     @Inject lateinit var contentAdapter: ContentListAdapter
-    private lateinit var favouritesViewModel: IFavouritesContract.ViewModel
+    private lateinit var favouritesViewModel: IContentListContract.ViewModel
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.content, menu)
@@ -112,7 +112,7 @@ class FavouritesFragment : Fragment(), IFavouritesContract.View {
     }
 
     override fun setToolBarTitle() {
-        activity!!.setTitle(R.string.title_favourites)
+        activity?.setTitle(R.string.title_favourites)
     }
 
     override fun startContentDetailsActivity(content: Content, view: View) {

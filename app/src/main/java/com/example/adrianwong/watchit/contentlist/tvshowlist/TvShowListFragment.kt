@@ -100,7 +100,7 @@ class TvShowListFragment : Fragment(), IContentListContract.View {
     }
 
     override fun setToolBarTitle() {
-        activity!!.setTitle(R.string.title_tv_shows)
+        activity?.setTitle(R.string.title_tv_shows)
     }
 
     override fun startContentDetailsActivity(content: Content, view: View) {

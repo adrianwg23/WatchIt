@@ -32,7 +32,6 @@ interface IContentListContract {
 
 sealed class ContentListEvent {
     data class OnListItemClick(val content: Content, val view: View) : ContentListEvent()
-    object OnListRefresh : ContentListEvent()
     object OnLoadMoreData : ContentListEvent()
     data class OnFavouriteContentChanged(val contentType: ContentType): ContentListEvent()
     object OnStart : ContentListEvent()
