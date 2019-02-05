@@ -1,4 +1,4 @@
-package com.example.adrianwong.watchit.favourites
+package com.example.adrianwong.watchit.contentlist.favourites
 
 import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.domain.usecases.GetFavouriteMovies

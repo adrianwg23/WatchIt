@@ -1,4 +1,4 @@
-package com.example.adrianwong.watchit.favourites
+package com.example.adrianwong.watchit.contentlist.favourites
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

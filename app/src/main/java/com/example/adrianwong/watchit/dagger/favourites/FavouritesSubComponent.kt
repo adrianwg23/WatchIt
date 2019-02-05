@@ -1,6 +1,6 @@
 package com.example.adrianwong.watchit.dagger.favourites
 
-import com.example.adrianwong.watchit.favourites.FavouritesFragment
+import com.example.adrianwong.watchit.contentlist.favourites.FavouritesFragment
 import dagger.Subcomponent
 
 @FavouritesScope

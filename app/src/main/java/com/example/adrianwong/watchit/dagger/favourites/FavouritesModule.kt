@@ -7,8 +7,8 @@ import com.example.adrianwong.domain.usecases.GetFavouriteMovies
 import com.example.adrianwong.domain.usecases.GetFavouriteTvShows
 import com.example.adrianwong.watchit.contentlist.ContentListAdapter
 import com.example.adrianwong.watchit.contentlist.IContentListContract
-import com.example.adrianwong.watchit.favourites.FavouritesFragment
-import com.example.adrianwong.watchit.favourites.FavouritesLogic
+import com.example.adrianwong.watchit.contentlist.favourites.FavouritesFragment
+import com.example.adrianwong.watchit.contentlist.favourites.FavouritesLogic
 import dagger.Module
 import dagger.Provides
 
