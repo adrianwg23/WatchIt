@@ -4,20 +4,18 @@ import com.example.adrianwong.data.api.ApiConstants
 import com.example.adrianwong.data.api.MovieApiService
 import com.example.adrianwong.data.db.FavouritesDatabase
 import com.example.adrianwong.data.entities.MovieData
+import com.example.adrianwong.data.toMovieData
+import com.example.adrianwong.data.toMovieEntity
 import com.example.adrianwong.domain.common.Mapper
 import com.example.adrianwong.domain.entities.MovieEntity
 import com.example.adrianwong.domain.repository.IMovieRepository
 
 class MovieRepositoryImpl(private val movieApiService: MovieApiService,
-                          private val database: FavouritesDatabase,
-                          private val dataToEntityMapper: Mapper<MovieData, MovieEntity>,
-                          private val entityToDataMapper: Mapper<MovieEntity, MovieData>) : IMovieRepository {
+                          private val database: FavouritesDatabase) : IMovieRepository {
 
     override suspend fun getPopularMovies(page: Int): List<MovieEntity> {
         val movieListResult = movieApiService.getPopularMovies(ApiConstants.API_KEY, ApiConstants.LANGUAGE, page).await()
-        return movieListResult.movies.map { movieData ->
-            dataToEntityMapper.mapFrom(movieData)
-        }
+        return movieListResult.movies.map { it.toMovieEntity() }
     }
 
     override suspend fun searchMovie(): List<MovieEntity>? {
@@ -25,16 +23,15 @@ class MovieRepositoryImpl(private val movieApiService: MovieApiService,
     }
 
     override suspend fun getFavouriteMovies(): List<MovieEntity> {
-        return database.favouritesDao().getFavouriteMovies()
-            .map { dataToEntityMapper.mapFrom(it) }
+        return database.favouritesDao().getFavouriteMovies().map { it.toMovieEntity() }
     }
 
     override suspend fun saveMovie(movieEntity: MovieEntity) {
-        database.favouritesDao().saveMovie(entityToDataMapper.mapFrom(movieEntity))
+        database.favouritesDao().saveMovie(movieEntity.toMovieData())
     }
 
     override suspend fun removeMovie(movieEntity: MovieEntity) {
-        database.favouritesDao().removeMovie(entityToDataMapper.mapFrom(movieEntity))
+        database.favouritesDao().removeMovie(movieEntity.toMovieData())
     }
 
     override suspend fun checkFavouriteMovie(movieId: Int): Boolean {

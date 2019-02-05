@@ -21,13 +21,13 @@ class DataModule {
     @Provides
     @MovieApplicationScope
     fun providesIMovieRepository(movieApiService: MovieApiService, database: FavouritesDatabase) : IMovieRepository {
-        return MovieRepositoryImpl(movieApiService, database, MovieDataToMovieEntityMapper, MovieEntityToMovieDataMapper)
+        return MovieRepositoryImpl(movieApiService, database)
     }
 
     @Provides
     @MovieApplicationScope
     fun providesITvShowRepository(movieApiService: MovieApiService, database: FavouritesDatabase) : ITvShowRepository {
-        return TvShowRepositoryImpl(movieApiService, database, TvShowDataToTvShowEntityMapper, TvShowEntityToTvShowDataMapper)
+        return TvShowRepositoryImpl(movieApiService, database)
     }
 
     @Provides
