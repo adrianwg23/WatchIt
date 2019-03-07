@@ -1,6 +1,6 @@
 # Watch It
 
-This project was built to expirement/explore Clean Architecture principles in an Android Application.
+This project was built to expirement/explore **Clean Architecture** principles in an Android Application.
 
 Watch It is a client side Android Application that pulls current popular movies and tv shows from **The Movie Database**'s API.
 Users can choose to favourite movies and/or tv shows which will save the movie locally on the phone.
