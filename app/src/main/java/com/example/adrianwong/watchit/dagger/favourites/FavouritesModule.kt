@@ -1,6 +1,5 @@
 package com.example.adrianwong.watchit.dagger.favourites
 
-import com.example.adrianwong.domain.DispatcherProvider
 import com.example.adrianwong.domain.repository.IMovieRepository
 import com.example.adrianwong.domain.repository.ITvShowRepository
 import com.example.adrianwong.domain.usecases.GetFavouriteMovies
@@ -9,34 +8,39 @@ import com.example.adrianwong.watchit.contentlist.ContentListAdapter
 import com.example.adrianwong.watchit.contentlist.IContentListContract
 import com.example.adrianwong.watchit.contentlist.favourites.FavouritesFragment
 import com.example.adrianwong.watchit.contentlist.favourites.FavouritesLogic
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 
 @Module
-class FavouritesModule(private val view: IContentListContract.View,
-                       private val viewModel: IContentListContract.ViewModel) {
+abstract class FavouritesModule {
 
-    @Provides
-    @FavouritesScope
-    fun providesGetFavouriteMovies(movieRepository: IMovieRepository): GetFavouriteMovies {
-        return GetFavouriteMovies(movieRepository)
+    @Module
+    companion object {
+        @JvmStatic
+        @Provides
+        @FavouritesScope
+        fun providesGetFavouriteMovies(movieRepository: IMovieRepository): GetFavouriteMovies {
+            return GetFavouriteMovies(movieRepository)
+        }
+
+        @JvmStatic
+        @Provides
+        @FavouritesScope
+        fun providesGetFavouriteTvShows(tvShowRepository: ITvShowRepository): GetFavouriteTvShows {
+            return GetFavouriteTvShows(tvShowRepository)
+        }
+
+        @JvmStatic
+        @Provides
+        @FavouritesScope
+        fun providesFavouritesAdapter(logic: IContentListContract.Logic, view: IContentListContract.View): ContentListAdapter {
+            return ContentListAdapter(logic, view as FavouritesFragment)
+        }
     }
 
-    @Provides
+    @Binds
     @FavouritesScope
-    fun providesGetFavouriteTvShows(tvShowRepository: ITvShowRepository): GetFavouriteTvShows {
-        return GetFavouriteTvShows(tvShowRepository)
-    }
+    abstract fun bindsIContentlistContractLogic(favouritesLogic: FavouritesLogic): IContentListContract.Logic
 
-    @Provides
-    @FavouritesScope
-    fun providesFavouritesLogic(getFavouriteMovies: GetFavouriteMovies, getFavouriteTvShows: GetFavouriteTvShows): IContentListContract.Logic {
-        return FavouritesLogic(DispatcherProvider, view, viewModel, getFavouriteMovies, getFavouriteTvShows)
-    }
-
-    @Provides
-    @FavouritesScope
-    fun providesFavouritesAdapter(logic: IContentListContract.Logic): ContentListAdapter {
-        return ContentListAdapter(logic, view as FavouritesFragment)
-    }
 }

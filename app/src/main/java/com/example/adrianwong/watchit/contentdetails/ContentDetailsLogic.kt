@@ -7,6 +7,7 @@ import com.example.adrianwong.domain.usecases.SaveFavouriteContent
 import com.example.adrianwong.watchit.common.BaseLogic
 import com.example.adrianwong.watchit.common.toMovieEntity
 import com.example.adrianwong.watchit.common.toTvShowEntity
+import com.example.adrianwong.watchit.dagger.contentdetails.ContentDetailsScope
 import com.example.adrianwong.watchit.entities.Content
 import com.example.adrianwong.watchit.entities.Movie
 import com.example.adrianwong.watchit.entities.TvShow
@@ -14,18 +15,19 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 /**
  * Contains logic for ContentDetailsActivity
  */
-class ContentDetailsLogic(dispatcher: DispatcherProvider,
-                          private val mView: IContentDetailsContract.View,
-                          private val mViewModel: IContentDetailsContract.ViewModel,
-                          private val checkFavouriteStatus: CheckFavouriteStatus,
-                          private val saveFavouriteContent: SaveFavouriteContent,
-                          private val removeFavouriteContent: RemoveFavouriteContent) :
-    BaseLogic(dispatcher), IContentDetailsContract.Logic, CoroutineScope {
+@ContentDetailsScope
+class ContentDetailsLogic @Inject constructor(private val mView: IContentDetailsContract.View,
+                                              private val mViewModel: IContentDetailsContract.ViewModel,
+                                              private val checkFavouriteStatus: CheckFavouriteStatus,
+                                              private val saveFavouriteContent: SaveFavouriteContent,
+                                              private val removeFavouriteContent: RemoveFavouriteContent) :
+    BaseLogic(DispatcherProvider), IContentDetailsContract.Logic, CoroutineScope {
 
     init {
         jobTracker = Job()

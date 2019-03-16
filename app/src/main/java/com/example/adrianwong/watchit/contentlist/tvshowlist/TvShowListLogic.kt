@@ -7,14 +7,17 @@ import com.example.adrianwong.watchit.common.toTvShow
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.ContentListLogic
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.dagger.tvshows.TvShowsScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class TvShowListLogic(dispatcher: DispatcherProvider,
-                      view: IContentListContract.View,
-                      viewModel: IContentListContract.ViewModel,
-                      private val getPopularTvShows: GetPopularTvShows) : ContentListLogic(dispatcher, view, viewModel) {
+@TvShowsScope
+class TvShowListLogic @Inject constructor(view: IContentListContract.View,
+                                          viewModel: IContentListContract.ViewModel,
+                                          private val getPopularTvShows: GetPopularTvShows) :
+    ContentListLogic(DispatcherProvider, view, viewModel) {
 
     override fun event(event: ContentListEvent) {
         when(event) {

@@ -7,14 +7,17 @@ import com.example.adrianwong.watchit.common.toMovie
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.ContentListLogic
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.dagger.movies.MoviesScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class MovieListLogic(dispatcher: DispatcherProvider,
-                     view: IContentListContract.View,
-                     viewModel: IContentListContract.ViewModel,
-                     private val getPopularMovies: GetPopularMovies) : ContentListLogic(dispatcher, view, viewModel) {
+@MoviesScope
+class MovieListLogic @Inject constructor(view: IContentListContract.View,
+                                         viewModel: IContentListContract.ViewModel,
+                                         private val getPopularMovies: GetPopularMovies) :
+    ContentListLogic(DispatcherProvider, view, viewModel) {
 
     override fun event(event: ContentListEvent) {
         when(event) {

@@ -1,23 +1,33 @@
 package com.example.adrianwong.watchit.dagger
 
-import com.example.adrianwong.watchit.dagger.contentdetails.ContentDetailsModule
+import android.content.Context
 import com.example.adrianwong.watchit.dagger.contentdetails.ContentDetailsSubComponent
-import com.example.adrianwong.watchit.dagger.favourites.FavouritesModule
 import com.example.adrianwong.watchit.dagger.favourites.FavouritesSubComponent
-import com.example.adrianwong.watchit.dagger.modules.AppModule
-import com.example.adrianwong.watchit.dagger.modules.DataModule
-import com.example.adrianwong.watchit.dagger.modules.NetworkModule
-import com.example.adrianwong.watchit.dagger.movies.MoviesModule
+import com.example.adrianwong.watchit.dagger.application.AppModule
+import com.example.adrianwong.watchit.dagger.application.ApplicationScope
+import com.example.adrianwong.watchit.dagger.application.DataModule
+import com.example.adrianwong.watchit.dagger.application.NetworkModule
 import com.example.adrianwong.watchit.dagger.movies.MoviesSubComponent
-import com.example.adrianwong.watchit.dagger.tvshows.TvShowsModule
 import com.example.adrianwong.watchit.dagger.tvshows.TvShowsSubComponent
+import dagger.BindsInstance
 import dagger.Component
 
-@MovieApplicationScope
+@ApplicationScope
 @Component(modules = [AppModule::class, NetworkModule::class, DataModule::class])
 interface MainComponent {
-    fun plus(contentDetailsModule: ContentDetailsModule): ContentDetailsSubComponent
-    fun plus(moviesModule: MoviesModule): MoviesSubComponent
-    fun plus(tvShowsModule: TvShowsModule): TvShowsSubComponent
-    fun plus(favouritesModule: FavouritesModule): FavouritesSubComponent
+    fun contentDetailsSubcomponent(): ContentDetailsSubComponent.Builder
+    fun moviesSubcomponent(): MoviesSubComponent.Builder
+    fun tvShowsSubcomponent(): TvShowsSubComponent.Builder
+    fun favouritesSubcomponent(): FavouritesSubComponent.Builder
+
+    @Component.Builder
+    interface Builder {
+        fun build(): MainComponent
+
+        @BindsInstance
+        fun applicationContext(context: Context): Builder
+
+        @BindsInstance
+        fun baseUrl(url: String): Builder
+    }
 }

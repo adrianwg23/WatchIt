@@ -1,20 +1,19 @@
 package com.example.adrianwong.watchit
 
 import android.app.Application
+import androidx.fragment.app.Fragment
 import com.example.adrianwong.watchit.contentdetails.IContentDetailsContract
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.contentlist.favourites.FavouritesFragment
+import com.example.adrianwong.watchit.contentlist.movielist.MovieListFragment
+import com.example.adrianwong.watchit.contentlist.tvshowlist.TvShowListFragment
 import com.example.adrianwong.watchit.dagger.DaggerMainComponent
 import com.example.adrianwong.watchit.dagger.MainComponent
-import com.example.adrianwong.watchit.dagger.contentdetails.ContentDetailsModule
 import com.example.adrianwong.watchit.dagger.contentdetails.ContentDetailsSubComponent
 import com.example.adrianwong.watchit.dagger.favourites.FavouritesModule
 import com.example.adrianwong.watchit.dagger.favourites.FavouritesSubComponent
-import com.example.adrianwong.watchit.dagger.modules.AppModule
-import com.example.adrianwong.watchit.dagger.modules.DataModule
-import com.example.adrianwong.watchit.dagger.modules.NetworkModule
 import com.example.adrianwong.watchit.dagger.movies.MoviesModule
 import com.example.adrianwong.watchit.dagger.movies.MoviesSubComponent
-import com.example.adrianwong.watchit.dagger.tvshows.TvShowsModule
 import com.example.adrianwong.watchit.dagger.tvshows.TvShowsSubComponent
 
 class MovieApplication : Application() {
@@ -29,15 +28,18 @@ class MovieApplication : Application() {
         super.onCreate()
 
         mainComponent = DaggerMainComponent.builder()
-            .appModule(AppModule(applicationContext))
-            .networkModule(NetworkModule(getString(R.string.base_url)))
-            .dataModule(DataModule())
+            .applicationContext(applicationContext)
+            .baseUrl(getString(R.string.base_url))
             .build()
     }
 
     fun createContentDetailsComponent(view: IContentDetailsContract.View,
                                       viewModel: IContentDetailsContract.ViewModel): ContentDetailsSubComponent {
-        contentDetailsSubComponent = mainComponent.plus(ContentDetailsModule(view, viewModel))
+        contentDetailsSubComponent = mainComponent
+            .contentDetailsSubcomponent()
+            .view(view)
+            .viewModel(viewModel)
+            .build()
         return contentDetailsSubComponent!!
     }
 
@@ -46,8 +48,12 @@ class MovieApplication : Application() {
     }
 
     fun createFavouritesComponent(view: IContentListContract.View,
-                                  favouritesVM: IContentListContract.ViewModel): FavouritesSubComponent {
-        favouritesSubComponent = mainComponent.plus(FavouritesModule(view, favouritesVM))
+                                  viewModel: IContentListContract.ViewModel): FavouritesSubComponent {
+        favouritesSubComponent = mainComponent
+            .favouritesSubcomponent()
+            .view(view)
+            .viewModel(viewModel)
+            .build()
         return favouritesSubComponent!!
     }
 
@@ -56,7 +62,11 @@ class MovieApplication : Application() {
     }
 
     fun createMoviesComponent(view: IContentListContract.View, viewModel: IContentListContract.ViewModel): MoviesSubComponent {
-        moviesSubComponent = mainComponent.plus(MoviesModule(view, viewModel))
+        moviesSubComponent = mainComponent
+            .moviesSubcomponent()
+            .view(view)
+            .viewModel(viewModel)
+            .build()
         return moviesSubComponent!!
     }
 
@@ -65,7 +75,11 @@ class MovieApplication : Application() {
     }
 
     fun createTvShowsComponent(view: IContentListContract.View, viewModel: IContentListContract.ViewModel): TvShowsSubComponent {
-        tvShowsSubComponent = mainComponent.plus(TvShowsModule(view, viewModel))
+        tvShowsSubComponent = mainComponent
+            .tvShowsSubcomponent()
+            .view(view)
+            .viewModel(viewModel)
+            .build()
         return tvShowsSubComponent!!
     }
 

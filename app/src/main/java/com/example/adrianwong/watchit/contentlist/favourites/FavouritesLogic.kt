@@ -8,16 +8,19 @@ import com.example.adrianwong.watchit.common.toTvShow
 import com.example.adrianwong.watchit.contentlist.ContentListEvent
 import com.example.adrianwong.watchit.contentlist.ContentListLogic
 import com.example.adrianwong.watchit.contentlist.IContentListContract
+import com.example.adrianwong.watchit.dagger.favourites.FavouritesScope
 import com.example.adrianwong.watchit.entities.ContentType
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class FavouritesLogic(dispatcher: DispatcherProvider,
-                      view: IContentListContract.View,
-                      viewModel: IContentListContract.ViewModel,
-                      private val getFavouriteMovies: GetFavouriteMovies,
-                      private val getFavouriteTvShows: GetFavouriteTvShows): ContentListLogic(dispatcher, view, viewModel){
+@FavouritesScope
+class FavouritesLogic @Inject constructor(view: IContentListContract.View,
+                                          viewModel: IContentListContract.ViewModel,
+                                          private val getFavouriteMovies: GetFavouriteMovies,
+                                          private val getFavouriteTvShows: GetFavouriteTvShows):
+    ContentListLogic(DispatcherProvider, view, viewModel){
 
     private var contentType = ContentType.MOVIE
 
